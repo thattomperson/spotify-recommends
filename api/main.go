@@ -19,7 +19,7 @@ var CookieName = "token"
 func Handler(w http.ResponseWriter, r *http.Request) {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/_/tracks", songsHandler)
+	mux.HandleFunc("/_/tracks", tracksHandler)
 	mux.HandleFunc("/_/recommendations", recommendationsHandler)
 	mux.HandleFunc("/_/auth", authHandler)
 	mux.HandleFunc("/_/callback", callbackHandler)
@@ -77,17 +77,17 @@ func getClient(r *http.Request) (*spotify.Client, error) {
 	return &client, nil
 }
 
-type Song struct {
+type Track struct {
 	Track   spotify.FullTrack     `json:"track"`
 	Album   *spotify.FullAlbum    `json:"album"`
 	Artists []*spotify.FullArtist `json:"artists"`
 }
 
-type SongsResponse struct {
-	Songs []Song `json:"songs"`
+type TracksResponse struct {
+	Tracks []Track `json:"tracks"`
 }
 
-func songsHandler(w http.ResponseWriter, r *http.Request) {
+func tracksHandler(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(r)
 	if err != nil {
 		http.Error(w, "Couldn't get client", http.StatusUnauthorized)
@@ -99,13 +99,13 @@ func songsHandler(w http.ResponseWriter, r *http.Request) {
 
 	artistsIds := []spotify.ID{}
 
-	songs := []spotify.FullTrack{}
+	tracks := []spotify.FullTrack{}
 	if c != nil && c.Item != nil {
 		for _, a := range c.Item.Artists {
 			artistsIds = append(artistsIds, a.ID)
 		}
 
-		songs = append(songs, *c.Item)
+		tracks = append(tracks, *c.Item)
 	}
 
 	songIds := []spotify.ID{}
@@ -117,20 +117,20 @@ func songsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	ss, _ := client.GetTracks(songIds...)
 	for _, s := range ss {
-		songs = append(songs, *s)
+		tracks = append(tracks, *s)
 	}
 
-	artists := getArtists(client, songs)
-	albums := getAlbums(client, songs)
+	artists := getArtists(client, tracks)
+	albums := getAlbums(client, tracks)
 
-	res := makeSongsResponse(songs, artists, albums)
+	res := makeTracksResponse(tracks, artists, albums)
 	json.NewEncoder(w).Encode(res)
 }
 
-func makeSongsResponse(songs []spotify.FullTrack, artists map[spotify.ID]*spotify.FullArtist, albums map[spotify.ID]*spotify.FullAlbum) SongsResponse {
-	res := SongsResponse{}
+func makeTracksResponse(tracks []spotify.FullTrack, artists map[spotify.ID]*spotify.FullArtist, albums map[spotify.ID]*spotify.FullAlbum) TracksResponse {
+	res := TracksResponse{}
 
-	for _, s := range songs {
+	for _, s := range tracks {
 		art := []*spotify.FullArtist{}
 		alb := albums[s.Album.ID]
 
@@ -138,7 +138,7 @@ func makeSongsResponse(songs []spotify.FullTrack, artists map[spotify.ID]*spotif
 			art = append(art, artists[a.ID])
 		}
 
-		res.Songs = append(res.Songs, Song{
+		res.Tracks = append(res.Tracks, Track{
 			Track:   s,
 			Album:   alb,
 			Artists: art,
@@ -148,11 +148,11 @@ func makeSongsResponse(songs []spotify.FullTrack, artists map[spotify.ID]*spotif
 	return res
 }
 
-func getAlbums(client *spotify.Client, songs []spotify.FullTrack) map[spotify.ID]*spotify.FullAlbum {
+func getAlbums(client *spotify.Client, tracks []spotify.FullTrack) map[spotify.ID]*spotify.FullAlbum {
 	albums := make(map[spotify.ID]*spotify.FullAlbum)
 	albumsIds := []spotify.ID{}
-	for _, s := range songs {
-		albumsIds = append(albumsIds, s.Album.ID)
+	for _, t := range tracks {
+		albumsIds = append(albumsIds, t.Album.ID)
 	}
 
 	as, _ := client.GetAlbums(albumsIds...)
@@ -164,11 +164,11 @@ func getAlbums(client *spotify.Client, songs []spotify.FullTrack) map[spotify.ID
 	return albums
 }
 
-func getArtists(client *spotify.Client, songs []spotify.FullTrack) map[spotify.ID]*spotify.FullArtist {
+func getArtists(client *spotify.Client, tracks []spotify.FullTrack) map[spotify.ID]*spotify.FullArtist {
 	artists := make(map[spotify.ID]*spotify.FullArtist)
 	artistsIds := []spotify.ID{}
-	for _, s := range songs {
-		for _, a := range s.Artists {
+	for _, t := range tracks {
+		for _, a := range t.Artists {
 			artistsIds = append(artistsIds, a.ID)
 		}
 	}

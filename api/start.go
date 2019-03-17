@@ -1,8 +1,12 @@
 package main
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 func main() {
 	http.HandleFunc("/", Handler)
-	http.ListenAndServe(":8080", nil)
+	log.Println("Listening on localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
