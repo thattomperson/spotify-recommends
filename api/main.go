@@ -108,14 +108,14 @@ func tracksHandler(w http.ResponseWriter, r *http.Request) {
 		tracks = append(tracks, *c.Item)
 	}
 
-	songIds := []spotify.ID{}
+	trackIDs := []spotify.ID{}
 	for _, r := range rs {
-		songIds = append(songIds, r.Track.ID)
+		trackIDs = append(trackIDs, r.Track.ID)
 		for _, a := range r.Track.Artists {
 			artistsIds = append(artistsIds, a.ID)
 		}
 	}
-	ss, _ := client.GetTracks(songIds...)
+	ss, _ := client.GetTracks(trackIDs...)
 	for _, s := range ss {
 		tracks = append(tracks, *s)
 	}

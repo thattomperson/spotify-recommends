@@ -16,7 +16,7 @@ export default {
   mounted() {
     this.update()
       .then(() => {
-        setInterval(() => this.updateSongs(), 10000)
+        setInterval(() => this.updateTracks(), 10000)
       })
   },
   components: {

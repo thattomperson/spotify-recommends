@@ -1,13 +1,13 @@
 <template>
   <div class="card">
-      <div class="card-img-cont" :style="`background-image: url(${song.track.album.images[0].url});`">
+      <div class="card-img-cont" :style="`background-image: url(${track.track.album.images[0].url});`">
       </div>
       <div class="card-content">
-        <h1 class="song-name" v-text="song.track.name" />
-        <h3 class="album-name">{{ song.track.album.name }} - {{ song.artists[0].name }}</h3>
+        <h1 class="track-name" v-text="track.track.name" />
+        <h3 class="album-name">{{ track.track.album.name }} - {{ track.artists[0].name }}</h3>
 
-        <div class="genres" v-if="song.artists">
-          <template v-for="artist in song.artists">
+        <div class="genres" v-if="track.artists">
+          <template v-for="artist in track.artists">
             <span v-for="genre in artist.genres" class="chip" :key="genre">{{ genre | title }}</span>
           </template>
         </div>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ['song'],
+  props: ['track'],
   filters: {
     title(str) {
       str = str.toLowerCase();
