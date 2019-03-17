@@ -86,7 +86,7 @@ export default new Vuex.Store({
   },
   getters: {
     tracks: state => state.tracks,
-    loading: state => state.tracks,
+    loading: state => state.loading,
     recommendations: state => state.recommendations,
     playlists: state => state.playlists,
   }
