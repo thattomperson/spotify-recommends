@@ -11,10 +11,10 @@ export default new Vuex.Store({
       recommendations: false,
       playlists: false,
     },
-    ...require('./test.json'),
-    // tracks: [],
-    // recommendations: [],
-    // playlists: [],
+    // ...require('./test.json'),
+    tracks: [],
+    recommendations: [],
+    playlists: [],
   },
   mutations: {
     tracks (state, newtracks) {
