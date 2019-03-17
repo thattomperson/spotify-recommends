@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import RecommendedCard from './RecommendedCard'
 export default {
   computed: {
@@ -26,6 +26,11 @@ export default {
   },
   components: {
     RecommendedCard,
+  },
+  methods: {
+    ...mapActions({
+      update: 'updateRecommendations'
+    })
   }
 }
 </script>

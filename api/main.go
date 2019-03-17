@@ -10,14 +10,20 @@ import (
 	"github.com/zmb3/spotify"
 )
 
-var redirectURL = "https://go-genre.now.sh/_/callback"
-var auth = spotify.NewAuthenticator(redirectURL, spotify.ScopeUserReadPrivate, spotify.ScopeUserReadEmail, spotify.ScopeUserReadCurrentlyPlaying, spotify.ScopeUserReadRecentlyPlayed)
+func getAuth(r *http.Request) spotify.Authenticator {
+	// redirectURL := fmt.Sprintf("%s//%s/_/callback", r.URL.Scheme, r.URL.Host) //"https://go-genre.now.sh/_/callback"
+	redirectURL := "http://localhost:8000/_/callback"
+	return spotify.NewAuthenticator(redirectURL, spotify.ScopeUserReadPrivate, spotify.ScopeUserReadEmail, spotify.ScopeUserReadCurrentlyPlaying, spotify.ScopeUserReadRecentlyPlayed)
+}
+
 var state = "testing"
 
 var CookieName = "token"
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	mux := http.NewServeMux()
+
+	w.Header().Add("Access-Control-Allow-Origin", "*")
 
 	mux.HandleFunc("/_/tracks", tracksHandler)
 	mux.HandleFunc("/_/recommendations", recommendationsHandler)
@@ -40,9 +46,13 @@ func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	id := spotify.ID(r.URL.Query().Get("id"))
 
 	country := "from_token"
-	rec, _ := client.GetRecommendations(spotify.Seeds{
+	rec, err := client.GetRecommendations(spotify.Seeds{
 		Tracks: []spotify.ID{id},
 	}, nil, &spotify.Options{Country: &country})
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
 	json.NewEncoder(w).Encode(RecommendationsResponse{
 		Recommendations: rec.Tracks,
@@ -55,7 +65,7 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 
 	// get the user to this URL - how you do that is up to you
 	// you should specify a unique state string to identify the session
-	url := auth.AuthURL(state)
+	url := getAuth(r).AuthURL(state)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
@@ -73,7 +83,7 @@ func getClient(r *http.Request) (*spotify.Client, error) {
 	token := &oauth2.Token{}
 	json.Unmarshal(b, token)
 
-	client := auth.NewClient(token)
+	client := getAuth(r).NewClient(token)
 	return &client, nil
 }
 
@@ -88,6 +98,7 @@ type TracksResponse struct {
 }
 
 func tracksHandler(w http.ResponseWriter, r *http.Request) {
+
 	client, err := getClient(r)
 	if err != nil {
 		http.Error(w, "Couldn't get client", http.StatusUnauthorized)
@@ -185,7 +196,7 @@ func getArtists(client *spotify.Client, tracks []spotify.FullTrack) map[spotify.
 // the user will eventually be redirected back to your redirect URL
 // typically you'll have a handler set up like the following:
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
-	tok, err := auth.Token(state, r)
+	tok, err := getAuth(r).Token(state, r)
 	if err != nil {
 		http.Error(w, "Couldn't get token", http.StatusForbidden)
 		return

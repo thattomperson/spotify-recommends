@@ -18,6 +18,7 @@ export default new Vuex.Store({
   },
   mutations: {
     tracks (state, newtracks) {
+      console.log(state, newtracks)
       state.tracks = newtracks;
       state.loading.tracks = false;
     },
@@ -45,7 +46,7 @@ export default new Vuex.Store({
 
       return axios.get("/_/tracks")
         .then(res => {
-          commit('tracks', res.tracks)
+          commit('tracks', res.data.tracks)
         })
         .catch((err) => {
           if (err.response && err.response.status == 401) {
@@ -55,12 +56,18 @@ export default new Vuex.Store({
         })
 
     },
-    updateRecommendations({ commit }) {
+    updateRecommendations({ state, commit }) {
       commit('loadingRecommendations', true)
 
-      return axios.get("/_/recommendations")
+      console.log(state)
+
+      if (state.tracks.length === 0) {
+        return
+      }
+
+      return axios.get(`/_/recommendations?id=${state.tracks[0].track.id}`)
         .then(res => {
-          commit('recommendations', res.tracks)
+          commit('recommendations', res.data.recommendations)
         })
         .catch((err) => {
           if (err.response && err.response.status == 401) {
@@ -74,7 +81,7 @@ export default new Vuex.Store({
 
       return axios.get("/_/playlists")
         .then(res => {
-          commit('playlists', res.tracks)
+          commit('playlists', res.data.playlists)
         })
         .catch((err) => {
           if (err.response && err.response.status == 401) {
