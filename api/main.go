@@ -19,7 +19,7 @@ var CookieName = "token"
 func Handler(w http.ResponseWriter, r *http.Request) {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/_/songs", songsHandler)
+	mux.HandleFunc("/_/tracks", songsHandler)
 	mux.HandleFunc("/_/recommendations", recommendationsHandler)
 	mux.HandleFunc("/_/auth", authHandler)
 	mux.HandleFunc("/_/callback", callbackHandler)
