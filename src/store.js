@@ -55,7 +55,7 @@ export default new Vuex.Store({
         })
 
     },
-    updateRecommendations() {
+    updateRecommendations({ commit }) {
       commit('loadingRecommendations', true)
 
       return axios.get("/_/recommendations")
@@ -69,7 +69,7 @@ export default new Vuex.Store({
           throw err
         })
     },
-    updatePlaylists() {
+    updatePlaylists({ commit }) {
       commit('loadingPlaylists', true)
 
       return axios.get("/_/playlists")
