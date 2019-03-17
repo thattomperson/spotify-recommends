@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "go-genre",
+  "alias": "go-genre.now.sh",
+  "builds": [
+    { "src": "api/*.go", "use": "@now/go" },
+    { "src": "index.html", "use": "@now/static" }
+  ],
+  "routes": [
+    { "src": "/_/(.*)", "dest": "/api//main.go" },
+    { "src": "/(.*)", "dest": "/dist/index.html" }
+  ],
+  "env": {
+    "SPOTIFY_ID": "@spotify-client-id",
+    "SPOTIFY_SECRET": "@spotify-client-secret",
+    "GENIUS_ID": "@genius-client-id",
+    "GENIUS_SECRET": "@genius-client-secret"
+  }
+}
