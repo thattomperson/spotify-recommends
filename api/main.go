@@ -10,7 +10,7 @@ import (
 	"github.com/zmb3/spotify"
 )
 
-var redirectURL = "https://go-genre.now.sh/callback"
+var redirectURL = "https://go-genre.now.sh/_/callback"
 var auth = spotify.NewAuthenticator(redirectURL, spotify.ScopeUserReadPrivate, spotify.ScopeUserReadEmail, spotify.ScopeUserReadCurrentlyPlaying, spotify.ScopeUserReadRecentlyPlayed)
 var state = "testing"
 
@@ -20,10 +20,33 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/_/songs", songsHandler)
+	mux.HandleFunc("/_/recommendations", recommendationsHandler)
 	mux.HandleFunc("/_/auth", authHandler)
 	mux.HandleFunc("/_/callback", callbackHandler)
 
 	mux.ServeHTTP(w, r)
+}
+
+type RecommendationsResponse struct {
+	Recommendations []spotify.SimpleTrack `json:"recommendations"`
+}
+
+func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	id := spotify.ID(r.URL.Query().Get("id"))
+
+	country := "from_token"
+	rec, _ := client.GetRecommendations(spotify.Seeds{
+		Tracks: []spotify.ID{id},
+	}, nil, &spotify.Options{Country: &country})
+
+	json.NewEncoder(w).Encode(RecommendationsResponse{
+		Recommendations: rec.Tracks,
+	})
 }
 
 func authHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,35 +78,108 @@ func getClient(r *http.Request) (*spotify.Client, error) {
 }
 
 type Song struct {
-	Info spotify.SimpleTrack `json:"info"`
+	Track   spotify.FullTrack     `json:"track"`
+	Album   *spotify.FullAlbum    `json:"album"`
+	Artists []*spotify.FullArtist `json:"artists"`
 }
 
-type Response struct {
+type SongsResponse struct {
 	Songs []Song `json:"songs"`
 }
 
 func songsHandler(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(r)
 	if err != nil {
-		http.Redirect(w, r, "/_/auth", http.StatusTemporaryRedirect)
+		http.Error(w, "Couldn't get client", http.StatusUnauthorized)
 		return
 	}
 
-	res := Response{}
-
 	c, _ := client.PlayerCurrentlyPlaying()
-	res.Songs = append(res.Songs, Song{
-		Info: c.Item.SimpleTrack,
-	})
-
 	rs, _ := client.PlayerRecentlyPlayed()
+
+	artistsIds := []spotify.ID{}
+
+	songs := []spotify.FullTrack{}
+	if c != nil && c.Item != nil {
+		for _, a := range c.Item.Artists {
+			artistsIds = append(artistsIds, a.ID)
+		}
+
+		songs = append(songs, *c.Item)
+	}
+
+	songIds := []spotify.ID{}
 	for _, r := range rs {
+		songIds = append(songIds, r.Track.ID)
+		for _, a := range r.Track.Artists {
+			artistsIds = append(artistsIds, a.ID)
+		}
+	}
+	ss, _ := client.GetTracks(songIds...)
+	for _, s := range ss {
+		songs = append(songs, *s)
+	}
+
+	artists := getArtists(client, songs)
+	albums := getAlbums(client, songs)
+
+	res := makeSongsResponse(songs, artists, albums)
+	json.NewEncoder(w).Encode(res)
+}
+
+func makeSongsResponse(songs []spotify.FullTrack, artists map[spotify.ID]*spotify.FullArtist, albums map[spotify.ID]*spotify.FullAlbum) SongsResponse {
+	res := SongsResponse{}
+
+	for _, s := range songs {
+		art := []*spotify.FullArtist{}
+		alb := albums[s.Album.ID]
+
+		for _, a := range s.Artists {
+			art = append(art, artists[a.ID])
+		}
+
 		res.Songs = append(res.Songs, Song{
-			Info: r.Track,
+			Track:   s,
+			Album:   alb,
+			Artists: art,
 		})
 	}
 
-	json.NewEncoder(w).Encode(res)
+	return res
+}
+
+func getAlbums(client *spotify.Client, songs []spotify.FullTrack) map[spotify.ID]*spotify.FullAlbum {
+	albums := make(map[spotify.ID]*spotify.FullAlbum)
+	albumsIds := []spotify.ID{}
+	for _, s := range songs {
+		albumsIds = append(albumsIds, s.Album.ID)
+	}
+
+	as, _ := client.GetAlbums(albumsIds...)
+	for _, a := range as {
+		b := a
+		albums[b.ID] = b
+	}
+
+	return albums
+}
+
+func getArtists(client *spotify.Client, songs []spotify.FullTrack) map[spotify.ID]*spotify.FullArtist {
+	artists := make(map[spotify.ID]*spotify.FullArtist)
+	artistsIds := []spotify.ID{}
+	for _, s := range songs {
+		for _, a := range s.Artists {
+			artistsIds = append(artistsIds, a.ID)
+		}
+	}
+
+	as, _ := client.GetArtists(artistsIds...)
+	for _, a := range as {
+		b := a
+		artists[b.ID] = b
+	}
+
+	return artists
 }
 
 // the user will eventually be redirected back to your redirect URL
