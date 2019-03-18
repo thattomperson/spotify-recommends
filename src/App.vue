@@ -165,6 +165,7 @@ header {
 }
 [title]::after {
   opacity: 0;
+  display: none;
   transition: opacity 200ms;
   content: attr(title);
   position: absolute;
@@ -180,6 +181,7 @@ header {
 }
 
 [title]:hover::after {
+  display: block;
   opacity: 1;
   transition-delay: 200ms;
 }
