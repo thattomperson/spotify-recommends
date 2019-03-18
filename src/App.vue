@@ -4,6 +4,7 @@
     <fa class="logo" :icon="['far', 'registered']" />
     <recent-list class="list" />
     <recommended-list class="list" />
+    <genre-list class="list" />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import RecentList from './components/RecentList'
 import RecommendedList from './components/RecommendedList'
+
 
 export default {
   name: 'app',
@@ -23,13 +25,13 @@ export default {
   },
   components: {
     RecentList,
-    RecommendedList
+    RecommendedList,
   },
   computed: {
     ...mapGetters([
       'tracks',
       'recommendations',
-      'loading'
+      'loading',
     ]),
   },
   methods: {
@@ -39,7 +41,9 @@ export default {
     ]),
     update() {
       return this.updateTracks()
-        .then(() => this.updateRecommendations())
+        .then(() => this.updateRecommendations({
+          track: this.tracks[0].track
+        }))
     }
   }
 }
@@ -153,11 +157,35 @@ a {
 }
 
 header {
-  margin: 10px auto;
   max-width: 600px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header {
+  margin: 10px auto;
+}
+
+.card-content {
+  width: 100%;
+}
+
+header {
+  margin: 0;
+}
+
+.actions a {
+  display: block;
+  margin-left: 5px;
+  border: 2px solid var(--color);
+  border-radius: 100%;
+}
+
+.actions svg.svg-inline--fa {
+  width: 25px;
+  height: 25px;
+  padding: 5px;
 }
 
 [title] {
@@ -174,7 +202,7 @@ header {
   margin: 0 auto;
   left: 50%;
   transform: translate(-50%);
-  color: var(--background);
+  color: var(--card-bg);
   border-radius: 3px;
   width: max-content;
   bottom: -100%;

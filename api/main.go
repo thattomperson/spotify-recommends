@@ -96,12 +96,15 @@ func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id := spotify.ID(r.URL.Query().Get("id"))
-
 	country := "from_token"
-	rec, err := client.GetRecommendations(spotify.Seeds{
-		Tracks: []spotify.ID{id},
-	}, nil, &spotify.Options{Country: &country})
+
+	id := spotify.ID(r.URL.Query().Get("id"))
+	req := spotify.Seeds{Tracks: []spotify.ID{id}}
+	if id == "" {
+		req = spotify.Seeds{Genres: []string{r.URL.Query().Get("genre")}}
+	}
+
+	rec, err := client.GetRecommendations(req, nil, &spotify.Options{Country: &country})
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

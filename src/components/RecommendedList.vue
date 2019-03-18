@@ -1,8 +1,8 @@
 <template>
 <div class="recomended">
-  <header>
+  <header class="header">
     <h1>Recommended</h1>
-    <button :disabled="loading.recommendations" class="btn" @click="update"><fa :spin="loading.recommendations" icon="sync-alt" /></button>
+    <fa spin class="fader" :class="{show: loading.recommendations}" icon="sync-alt" />
   </header>
   <template v-if="recommendations.length > 0">
       <recommended-card ref="cards" @play="stopOthers(track)" :track="track" v-for="track in recommendations" :key="track.id" />
@@ -11,10 +11,13 @@
     <div class="card" v-for="i in 20" :key="i" style="min-height: 10em;">
     </div>
   </template>
+
+  <genre-list />
 </div>
 </template>
 
 <script>
+import GenreList from './GenreList'
 import { mapGetters, mapActions } from 'vuex'
 import RecommendedCard from './RecommendedCard'
 export default {
@@ -26,6 +29,7 @@ export default {
   },
   components: {
     RecommendedCard,
+    GenreList
   },
   methods: {
     ...mapActions({

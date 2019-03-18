@@ -1,6 +1,6 @@
 <template>
   <div class="recent">
-    <header>
+    <header class="header">
       <h1>Recently Played</h1>
       <fa spin class="fader" :class="{show: loading.tracks}" icon="sync-alt" />
     </header>

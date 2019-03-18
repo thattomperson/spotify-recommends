@@ -35,27 +35,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.card-content {
-  width: 100%;
-}
-
-header {
-  margin: 0;
-}
-
-.actions a {
-  display: block;
-  margin-left: 5px;
-  border: 2px solid var(--color);
-  border-radius: 100%;
-}
-
-.actions svg {
-  width: 30px;
-  height: 30px;
-  padding: 5px;
-}
-</style>
-

@@ -3,7 +3,14 @@
       <div class="card-img-cont" :style="`background-image: url(${track.track.album.images[0].url});`">
       </div>
       <div class="card-content">
-        <h1 class="track-name" v-text="track.track.name" />
+        <header>
+          <h1 class="track-name" v-text="track.track.name" />
+          <div class="actions">
+            <a @click="related">
+              <fa icon="search" />
+            </a>
+          </div>
+        </header>
         <h3 class="album-name">{{ track.track.album.name }} - {{ track.artists[0].name }}</h3>
 
         <div class="genres" v-if="track.artists">
@@ -12,7 +19,6 @@
       </div>
     </div>
 </template>
-
 
 <script>
 export default {
@@ -30,6 +36,13 @@ export default {
         })
       })
       return Object.keys(g)
+    }
+  },
+  methods: {
+    related() {
+      this.$store.dispatch('updateRecommendations', {
+        track: this.track.track
+      })
     }
   },
   filters: {

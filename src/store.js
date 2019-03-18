@@ -55,14 +55,22 @@ export default new Vuex.Store({
         })
 
     },
-    updateRecommendations({ state, commit }) {
+    updateRecommendations({ state, commit }, payload) {
       commit('loadingRecommendations', true)
 
       if (state.tracks.length === 0) {
         return
       }
+      let url
+      if (payload.track) {
+        url = `/_/recommendations?id=${payload.track.id}`
+      } else if (payload.genre) {
+        url = `/_/recommendations?genre=${payload.genre}`
+      } else {
+        return
+      }
 
-      return axios.get(`/_/recommendations?id=${state.tracks[0].track.id}`)
+      return axios.get(url)
         .then(res => {
           commit('recommendations', res.data.recommendations)
         })
@@ -93,5 +101,6 @@ export default new Vuex.Store({
     loading: state => state.loading,
     recommendations: state => state.recommendations,
     playlists: state => state.playlists,
+    genres: () => require('./genres.json')
   }
 })
