@@ -159,4 +159,29 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+
+[title] {
+  position: relative;
+}
+[title]::after {
+  opacity: 0;
+  transition: opacity 200ms;
+  content: attr(title);
+  position: absolute;
+  background: black;
+  padding: 10px;
+  margin: 0 auto;
+  left: 50%;
+  transform: translate(-50%);
+  color: var(--background);
+  border-radius: 3px;
+  width: max-content;
+  bottom: -100%;
+}
+
+[title]:hover::after {
+  opacity: 1;
+  transition-delay: 200ms;
+}
+
 </style>

@@ -3,7 +3,9 @@ package api
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strings"
 
 	"golang.org/x/oauth2"
 
@@ -11,9 +13,12 @@ import (
 )
 
 func getAuth(r *http.Request) spotify.Authenticator {
-	// redirectURL := fmt.Sprintf("%s//%s/_/callback", r.URL.Scheme, r.URL.Host) //"https://go-genre.now.sh/_/callback"
-	redirectURL := "http://localhost:8000/_/callback"
-	return spotify.NewAuthenticator(redirectURL, spotify.ScopeUserReadPrivate, spotify.ScopeUserReadEmail, spotify.ScopeUserReadCurrentlyPlaying, spotify.ScopeUserReadRecentlyPlayed)
+	redirectURL := fmt.Sprintf("https://%s/_/callback", r.Host)
+	if r.Host == "localhost:8000" {
+		redirectURL = "http://localhost:8000/_/callback"
+	}
+
+	return spotify.NewAuthenticator(redirectURL, spotify.ScopeUserReadPrivate, spotify.ScopeUserReadEmail, spotify.ScopeUserReadCurrentlyPlaying, spotify.ScopeUserReadRecentlyPlayed, spotify.ScopePlaylistModifyPrivate, spotify.ScopePlaylistModifyPublic)
 }
 
 var state = "testing"
@@ -25,12 +30,46 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
+	mux.HandleFunc("/_/add", addHandler)
 	mux.HandleFunc("/_/tracks", tracksHandler)
 	mux.HandleFunc("/_/recommendations", recommendationsHandler)
 	mux.HandleFunc("/_/auth", authHandler)
 	mux.HandleFunc("/_/callback", callbackHandler)
 
 	mux.ServeHTTP(w, r)
+}
+
+func addHandler(w http.ResponseWriter, r *http.Request) {
+	client, err := getClient(r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	id := spotify.ID(r.URL.Query().Get("id"))
+
+	state, err := client.PlayerState()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if state.PlaybackContext.Type != "playlist" {
+		http.Error(w, "No Current playlist", http.StatusBadRequest)
+		return
+	}
+
+	uri := state.PlaybackContext.URI
+	parts := strings.Split(string(uri), ":")
+	sid := parts[len(parts)-1]
+
+	_, err = client.AddTracksToPlaylist(spotify.ID(sid), spotify.ID(id))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
 
 type RecommendationsResponse struct {
@@ -41,6 +80,7 @@ func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	client, err := getClient(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	id := spotify.ID(r.URL.Query().Get("id"))
