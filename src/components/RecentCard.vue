@@ -7,9 +7,7 @@
         <h3 class="album-name">{{ track.track.album.name }} - {{ track.artists[0].name }}</h3>
 
         <div class="genres" v-if="track.artists">
-          <template v-for="artist in track.artists">
-            <span v-for="genre in artist.genres" class="chip" :key="genre">{{ genre | title }}</span>
-          </template>
+          <span v-for="genre in genres" class="chip" :key="genre">{{ genre | title }}</span>
         </div>
       </div>
     </div>
@@ -19,6 +17,21 @@
 <script>
 export default {
   props: ['track'],
+  computed: {
+    genres() {
+      let g = {};
+      if (!this.track.artists) {
+        return []
+      }
+
+      this.track.artists.forEach(artist => {
+        artist.genres.forEach(genre => {
+          g[genre]++
+        })
+      })
+      return Object.keys(g)
+    }
+  },
   filters: {
     title(str) {
       str = str.toLowerCase();
