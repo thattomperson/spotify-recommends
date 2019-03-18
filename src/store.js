@@ -18,22 +18,21 @@ export default new Vuex.Store({
   },
   mutations: {
     tracks (state, newtracks) {
-      console.log(state, newtracks)
-      state.tracks = newtracks;
+      state.tracks = newtracks || [];
       state.loading.tracks = false;
     },
     loadingTracks (state) {
       state.loading.tracks = true;
     },
     recommendations (state, newRecommendations) {
-      state.recommendations = newRecommendations;
+      state.recommendations = newRecommendations || [];
       state.loading.recommendations = false;
     },
     loadingRecommendations (state) {
       state.loading.recommendations = true;
     },
     playlists (state, newPlaylists) {
-      state.playlists = newPlaylists;
+      state.playlists = newPlaylists || [];
       state.loading.playlists = false;
     },
     loadingPlaylists (state) {
@@ -58,8 +57,6 @@ export default new Vuex.Store({
     },
     updateRecommendations({ state, commit }) {
       commit('loadingRecommendations', true)
-
-      console.log(state)
 
       if (state.tracks.length === 0) {
         return

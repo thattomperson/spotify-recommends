@@ -1,7 +1,9 @@
 <template>
+  
   <div id="app">
-    <recent-list />
-    <recommended-list />
+    <fa class="logo" :icon="['far', 'registered']" />
+    <recent-list class="list" />
+    <recommended-list class="list" />
   </div>
 </template>
 
@@ -48,6 +50,20 @@ export default {
   --background: #C9A2D2;
   --card-bg: #EBDDEE;
   --color: #404E88;
+}
+
+.logo {
+  color: var(--card-bg);
+  font-size: 20em;
+  position: fixed;
+  margin: 20px;
+  left: 0;
+  z-index: 0;
+  transform: rotate(30deg)
+}
+
+.list {
+  z-index: 1;
 }
 
 * {

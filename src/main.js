@@ -4,10 +4,11 @@ import App from './App.vue'
 import store from './store'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSyncAlt, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { faRegistered } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSyncAlt)
+library.add(faSyncAlt, faRegistered, faPlay, faPause)
 Vue.component('fa', FontAwesomeIcon)
 
 Vue.config.productionTip = false

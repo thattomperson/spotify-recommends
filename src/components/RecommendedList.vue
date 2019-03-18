@@ -5,7 +5,7 @@
     <button :disabled="loading.recommendations" class="btn" @click="update"><fa :spin="loading.recommendations" icon="sync-alt" /></button>
   </header>
   <template v-if="recommendations.length > 0">
-      <recommended-card :track="track" v-for="track in recommendations" :key="track.id" />
+      <recommended-card ref="cards" @play="stopOthers(track)" :track="track" v-for="track in recommendations" :key="track.id" />
   </template>
   <template v-else>
     <div class="card" v-for="i in 20" :key="i" style="min-height: 10em;">
@@ -30,7 +30,15 @@ export default {
   methods: {
     ...mapActions({
       update: 'updateRecommendations'
-    })
+    }),
+    stopOthers(track) {
+      for (let i = 0; i < this.$refs.cards.length; i++) {
+        let card = this.$refs.cards[i];
+        if (card._props.track.id !== track.id) {
+          card.pause()
+        }
+      }
+    }
   }
 }
 </script>
