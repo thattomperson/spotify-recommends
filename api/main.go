@@ -61,9 +61,22 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 
 	uri := state.PlaybackContext.URI
 	parts := strings.Split(string(uri), ":")
-	sid := parts[len(parts)-1]
+	plid := spotify.ID(parts[len(parts)-1])
 
-	_, err = client.AddTracksToPlaylist(spotify.ID(sid), spotify.ID(id))
+	plts, err := client.GetPlaylistTracks(plid)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	for _, t := range plts.Tracks {
+		if t.Track.ID == id {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+	}
+
+	_, err = client.AddTracksToPlaylist(plid, spotify.ID(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
