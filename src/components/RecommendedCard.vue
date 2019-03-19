@@ -6,6 +6,9 @@
           <h1 class="track-name" v-text="track.name"/>
         </a>
         <div class="actions">
+          <a @click="related" title="Find related songs">
+            <fa icon="search"/>
+          </a>
           <a @click="add" title="Add to current playlist">
             <fa icon="plus"/>
           </a>
@@ -31,6 +34,11 @@ export default {
     },
     add() {
       this.$http.get(`/_/add?id=${this.track.id}`)
+    },
+    related() {
+      this.$store.dispatch('updateRecommendations', {
+        track: this.track.track
+      })
     }
   }
 }
