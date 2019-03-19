@@ -37,7 +37,7 @@ export default {
     },
     related() {
       this.$store.dispatch('updateRecommendations', {
-        track: this.track.track
+        track: this.track
       })
     }
   }
