@@ -86,7 +86,7 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type RecommendationsResponse struct {
-	Recommendations []spotify.SimpleTrack `json:"recommendations"`
+	Recommendations []*spotify.FullTrack `json:"recommendations"`
 }
 
 func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
@@ -105,13 +105,18 @@ func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rec, err := client.GetRecommendations(req, nil, &spotify.Options{Country: &country})
+	var ids []spotify.ID
+	for _, t := range rec.Tracks {
+		ids = append(ids, t.ID)
+	}
+	tracks, err := client.GetTracks(ids...)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
 	json.NewEncoder(w).Encode(RecommendationsResponse{
-		Recommendations: rec.Tracks,
+		Recommendations: tracks,
 	})
 }
 
@@ -144,7 +149,7 @@ func getClient(r *http.Request) (*spotify.Client, error) {
 }
 
 type Track struct {
-	Track   spotify.FullTrack     `json:"track"`
+	Track   *spotify.FullTrack    `json:"track"`
 	Album   *spotify.FullAlbum    `json:"album"`
 	Artists []*spotify.FullArtist `json:"artists"`
 }
@@ -166,13 +171,13 @@ func tracksHandler(w http.ResponseWriter, r *http.Request) {
 
 	artistsIds := []spotify.ID{}
 
-	tracks := []spotify.FullTrack{}
+	tracks := []*spotify.FullTrack{}
 	if c != nil && c.Item != nil {
 		for _, a := range c.Item.Artists {
 			artistsIds = append(artistsIds, a.ID)
 		}
-
-		tracks = append(tracks, *c.Item)
+		a := c.Item
+		tracks = append(tracks, a)
 	}
 
 	trackIDs := []spotify.ID{}
@@ -184,7 +189,8 @@ func tracksHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	ss, _ := client.GetTracks(trackIDs...)
 	for _, s := range ss {
-		tracks = append(tracks, *s)
+		a := s
+		tracks = append(tracks, a)
 	}
 
 	artists := getArtists(client, tracks)
@@ -194,7 +200,19 @@ func tracksHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
-func makeTracksResponse(tracks []spotify.FullTrack, artists map[spotify.ID]*spotify.FullArtist, albums map[spotify.ID]*spotify.FullAlbum) TracksResponse {
+func transformTracks(client *spotify.Client, ids []spotify.ID) (res TracksResponse, err error) {
+	tracks, err := client.GetTracks(ids...)
+	if err != nil {
+		return
+	}
+
+	artists := getArtists(client, tracks)
+	albums := getAlbums(client, tracks)
+
+	return makeTracksResponse(tracks, artists, albums), nil
+}
+
+func makeTracksResponse(tracks []*spotify.FullTrack, artists map[spotify.ID]*spotify.FullArtist, albums map[spotify.ID]*spotify.FullAlbum) TracksResponse {
 	res := TracksResponse{}
 
 	for _, s := range tracks {
@@ -215,7 +233,7 @@ func makeTracksResponse(tracks []spotify.FullTrack, artists map[spotify.ID]*spot
 	return res
 }
 
-func getAlbums(client *spotify.Client, tracks []spotify.FullTrack) map[spotify.ID]*spotify.FullAlbum {
+func getAlbums(client *spotify.Client, tracks []*spotify.FullTrack) map[spotify.ID]*spotify.FullAlbum {
 	albums := make(map[spotify.ID]*spotify.FullAlbum)
 	albumsIds := []spotify.ID{}
 	for _, t := range tracks {
@@ -231,7 +249,7 @@ func getAlbums(client *spotify.Client, tracks []spotify.FullTrack) map[spotify.I
 	return albums
 }
 
-func getArtists(client *spotify.Client, tracks []spotify.FullTrack) map[spotify.ID]*spotify.FullArtist {
+func getArtists(client *spotify.Client, tracks []*spotify.FullTrack) map[spotify.ID]*spotify.FullArtist {
 	artists := make(map[spotify.ID]*spotify.FullArtist)
 	artistsIds := []spotify.ID{}
 	for _, t := range tracks {
