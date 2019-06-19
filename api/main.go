@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"encoding/base64"
@@ -109,15 +109,13 @@ func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	for _, t := range rec.Tracks {
 		ids = append(ids, t.ID)
 	}
-	tracks, err := client.GetTracks(ids...)
 
+	res, err := transformTracks(client, ids)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
-	json.NewEncoder(w).Encode(RecommendationsResponse{
-		Recommendations: tracks,
-	})
+	json.NewEncoder(w).Encode(res)
 }
 
 func authHandler(w http.ResponseWriter, r *http.Request) {

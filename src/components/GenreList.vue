@@ -33,6 +33,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 10px;
+  background: var(--card-bg);
 }
 
 .chip {

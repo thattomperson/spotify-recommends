@@ -5,6 +5,10 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/joho/godotenv"
+
+	api "ttp.sh/go-genre/api"
 )
 
 func proxy(address string) http.HandlerFunc {
@@ -20,8 +24,10 @@ func proxy(address string) http.HandlerFunc {
 }
 
 func main() {
-	http.HandleFunc("/_/", Handler)
+	godotenv.Load()
+
+	http.HandleFunc("/_/", api.Handler)
 	http.HandleFunc("/", proxy("localhost:8080"))
-	log.Println("Listening on localhost:8000")
+	log.Println("Listening on http://localhost:8000")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
