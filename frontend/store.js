@@ -40,8 +40,10 @@ export const [recommendedTracks, loadingRecommended] = DereivedUpdatableLoadable
 function updateRecents(recentTracks, loadingRecent) {
   loadingRecent(true);
   setTimeout(async () => {
-    const res = await axios.get('/_/tracks')
-    if (res.data.tracks === null) {
+    let res
+    try {
+      res = await axios.get('/_/tracks')
+    } catch (e) {
       window.location = '/_/auth'
     }
 
@@ -63,7 +65,13 @@ async function updateRecommened(track, set) {
     return
   }
 
-  const res = await axios.get(`/_/recommendations?id=${track.id}`)
+  let res
+  try {
+    res = await axios.get(`/_/recommendations?id=${track.id}`)
+  } catch (e) {
+    window.location = '/_/auth'
+  }
+  
 
   if (res.data.tracks === null) {
     window.location = '/_/auth'
