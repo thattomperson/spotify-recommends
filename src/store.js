@@ -1,106 +1,75 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { writable, derived, readable, get } from 'svelte/store';
+
+function ReadableUpdatableLoadable(value, update) {
+  const { subscribe: vsubscribe, set: vset } = writable(value);
+  const { subscribe: lsubscribe, set: lset } = writable(false);
+
+  update(vset, lset)
+
+  return [
+    {subscribe: vsubscribe},
+    {subscribe: lsubscribe}
+  ]
+}
+
+function DereivedUpdatableLoadable(store, value, update) {
+  const { subscribe: vsubscribe, set: vset } = writable(value);
+  const { subscribe: lsubscribe, set: lset } = writable(false);
+
+  store.subscribe(async (value) => {
+    lset(true)
+    await update(value, vset)
+    lset(false)
+  })
+
+  return [
+    {subscribe: vsubscribe},
+    {subscribe: lsubscribe}
+  ]
+}
+
+
 import axios from 'axios'
 
-Vue.use(Vuex)
+export const [recentTracks, loadingRecent] = ReadableUpdatableLoadable([], updateRecents)
 
-export default new Vuex.Store({
-  state: {
-    loading: {
-      tracks: false,
-      recommendations: false,
-      playlists: false,
-    },
-    // ...require('./test.json'),
-    tracks: [],
-    recommendations: [],
-    playlists: [],
-  },
-  mutations: {
-    tracks (state, newtracks) {
-      state.tracks = newtracks || [];
-      state.loading.tracks = false;
-    },
-    loadingTracks (state) {
-      state.loading.tracks = true;
-    },
-    recommendations (state, newRecommendations) {
-      state.recommendations = newRecommendations || [];
-      state.loading.recommendations = false;
-    },
-    loadingRecommendations (state) {
-      state.loading.recommendations = true;
-    },
-    playlists (state, newPlaylists) {
-      state.playlists = newPlaylists || [];
-      state.loading.playlists = false;
-    },
-    loadingPlaylists (state) {
-      state.loading.playlists = true;
-    },
-  },
-  actions: {
-    updateTracks({ commit }) {
-      commit('loadingTracks', true)
+export const recommendedBasedOn = writable(undefined)
 
-      return axios.get("/_/tracks")
-        .then(res => {
-          commit('tracks', res.data.tracks)
-        })
-        .catch((err) => {
-          if (err.response && err.response.status == 401) {
-            window.location.pathname = '/_/auth'
-          }
-          throw err
-        })
+export const [recommendedTracks, loadingRecommended] = DereivedUpdatableLoadable(recommendedBasedOn, [], updateRecommened)
 
-    },
-    updateRecommendations({ state, commit }, payload) {
-      commit('loadingRecommendations', true)
-
-      if (state.tracks.length === 0) {
-        return
-      }
-      let url
-      if (payload.track) {
-        url = `/_/recommendations?id=${payload.track.id}`
-      } else if (payload.genre) {
-        url = `/_/recommendations?genre=${payload.genre}`
-      } else {
-        return
-      }
-
-      return axios.get(url)
-        .then(res => {
-          commit('recommendations', res.data.tracks)
-        })
-        .catch((err) => {
-          if (err.response && err.response.status == 401) {
-            window.location.pathname = '/_/auth'
-          }
-          throw err
-        })
-    },
-    updatePlaylists({ commit }) {
-      commit('loadingPlaylists', true)
-
-      return axios.get("/_/playlists")
-        .then(res => {
-          commit('playlists', res.data.playlists)
-        })
-        .catch((err) => {
-          if (err.response && err.response.status == 401) {
-            window.location.pathname = '/_/auth'
-          }
-          throw err
-        })
+function updateRecents(recentTracks, loadingRecent) {
+  loadingRecent(true);
+  setTimeout(async () => {
+    const res = await axios.get('/_/tracks')
+    if (res.data.tracks === null) {
+      window.location = '/_/auth'
     }
-  },
-  getters: {
-    tracks: state => state.tracks,
-    loading: state => state.loading,
-    recommendations: state => state.recommendations,
-    playlists: state => state.playlists,
-    genres: () => require('./genres.json')
+
+    let rbo = get(recommendedBasedOn)
+    if (!rbo) {
+      recommendedBasedOn.set(res.data.tracks[0].track)
+    }
+
+    recentTracks(res.data.tracks)
+    loadingRecent(false);
+  }, 500)
+
+  setTimeout(updateRecents, 10000, recentTracks, loadingRecent)
+}
+
+async function updateRecommened(track, set) {
+  if (!track) {
+    set([])
+    return
   }
-})
+
+  const res = await axios.get(`/_/recommendations?id=${track.id}`)
+
+  if (res.data.tracks === null) {
+    window.location = '/_/auth'
+  }
+
+  set(res.data.tracks)
+}
+
+// updateRecents()

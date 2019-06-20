@@ -1,4 +1,4 @@
-package handler
+package handler // import recommend.ttp.sh/handler
 
 import (
 	"encoding/base64"
