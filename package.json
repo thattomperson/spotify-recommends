@@ -22,8 +22,8 @@
     "build": "rollup -c",
     "autobuild": "rollup -c -w",
     "dev": "run-p api:dev start:dev autobuild",
-    "start": "sirv public --single",
-    "start:dev": "sirv public --single --dev",
+    "start": "sirv dist --single",
+    "start:dev": "sirv dist --single --dev",
     "api:dev": "cd api; go run ./cmd",
     "now-build": "yarn build"
   }
