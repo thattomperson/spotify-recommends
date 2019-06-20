@@ -8,7 +8,7 @@
   ],
   "routes": [
     { "src": "/_/(.*)", "dest": "/handler/main.go" },
-    { "src": "/(.*)", "dest": "/dist/index.html" }
+    { "src": "/(.*)", "dest": "/public/index.html" }
   ],
   "env": {
     "SPOTIFY_ID": "@spotify-client-id",
