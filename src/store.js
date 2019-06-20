@@ -37,8 +37,8 @@ export const recommendedBasedOn = writable(undefined)
 
 export const [recommendedTracks, loadingRecommended] = DereivedUpdatableLoadable(recommendedBasedOn, [], updateRecommened)
 
-async function updateRecents(recentTracks, loadingRecent) {
-  loadingRecent(true);
+async function updateRecents(setRecentTracks, setLoadingRecent) {
+  setLoadingRecent(true);
   
   const res = await axios.get('/_/tracks')
   if (res.data.tracks === null) {
@@ -50,10 +50,10 @@ async function updateRecents(recentTracks, loadingRecent) {
     recommendedBasedOn.set(res.data.tracks[0].track)
   }
 
-  recentTracks(res.data.tracks)
-  loadingRecent(false);
+  setRecentTracks(res.data.tracks)
+  setLoadingRecent(false);
 
-  setTimeout(updateRecents, 10000, recentTracks, loadingRecent)
+  setTimeout(updateRecents, 10000, setRecentTracks, setLoadingRecent)
 }
 
 async function updateRecommened(track, set) {
