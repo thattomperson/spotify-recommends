@@ -37,22 +37,21 @@ export const recommendedBasedOn = writable(undefined)
 
 export const [recommendedTracks, loadingRecommended] = DereivedUpdatableLoadable(recommendedBasedOn, [], updateRecommened)
 
-function updateRecents(recentTracks, loadingRecent) {
+async function updateRecents(recentTracks, loadingRecent) {
   loadingRecent(true);
-  setTimeout(async () => {
-    const res = await axios.get('/_/tracks')
-    if (res.data.tracks === null) {
-      window.location = '/_/auth'
-    }
+  
+  const res = await axios.get('/_/tracks')
+  if (res.data.tracks === null) {
+    window.location = '/_/auth'
+  }
 
-    let rbo = get(recommendedBasedOn)
-    if (!rbo) {
-      recommendedBasedOn.set(res.data.tracks[0].track)
-    }
+  let rbo = get(recommendedBasedOn)
+  if (!rbo) {
+    recommendedBasedOn.set(res.data.tracks[0].track)
+  }
 
-    recentTracks(res.data.tracks)
-    loadingRecent(false);
-  }, 500)
+  recentTracks(res.data.tracks)
+  loadingRecent(false);
 
   setTimeout(updateRecents, 10000, recentTracks, loadingRecent)
 }
