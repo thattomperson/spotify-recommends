@@ -3,7 +3,7 @@
   "name": "go-genre",
   "alias": "recommend.ttp.sh",
   "builds": [
-    { "src": "handler/*.go", "use": "@now/go" },
+    { "src": "api/*.go", "use": "@now/go" },
     { "src": "package.json", "use": "@now/static-build" }
   ],
   "routes": [
