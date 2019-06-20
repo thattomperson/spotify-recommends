@@ -1,3 +1,4 @@
 node_modules/
 dist/
-api/start.go
+api/cmd
+old-src

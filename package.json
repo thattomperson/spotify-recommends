@@ -24,6 +24,7 @@
     "dev": "run-p api:dev start:dev autobuild",
     "start": "sirv public --single",
     "start:dev": "sirv public --single --dev",
-    "api:dev": "cd api; go run ./cmd"
+    "api:dev": "cd api; go run ./cmd",
+    "now-build": "yarn build"
   }
 }
