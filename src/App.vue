@@ -4,7 +4,6 @@
     <fa class="logo" :icon="['far', 'registered']" />
     <recent-list class="list" />
     <recommended-list class="list" />
-    <genre-list class="list" />
   </div>
 </template>
 
@@ -13,7 +12,6 @@ import { mapActions, mapGetters } from 'vuex'
 
 import RecentList from './components/RecentList'
 import RecommendedList from './components/RecommendedList'
-
 
 export default {
   name: 'app',
@@ -50,11 +48,25 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Quicksand|Roboto&display=swap');
+
 :root {
   --background: #C9A2D2;
   --card-bg: #EBDDEE;
   --color: #404E88;
 }
+
+header {
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  margin: 10px auto;
+}
+
 
 .logo {
   color: var(--card-bg);
@@ -89,7 +101,7 @@ body, html {
   padding: 0;
   color: var(--color);
   background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -103,29 +115,6 @@ body, html {
   margin: auto;
   display: flex;
   justify-content: space-around;
-}
-
-.card {
-  display: flex;
-  background: var(--card-bg);
-  margin: 10px auto;
-  max-width: 600px;
-}
-
-.card-img-cont {
-  min-width: 12rem;
-  min-height: 12rem;
-  height: auto;
-  overflow: hidden;
-  background-size: cover;
-}
-
-.card-img {
-  width: 100%;
-}
-
-.card-content {
-  padding: 1rem;
 }
 
 .chip {
@@ -151,41 +140,8 @@ a {
   height: 48px;
 }
 
-
-.card h1, .card h3 {
-  margin: 0 0 5px 0;
-}
-
-header {
-  max-width: 600px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header {
-  margin: 10px auto;
-}
-
-.card-content {
-  width: 100%;
-}
-
 header {
   margin: 0;
-}
-
-.actions a {
-  display: block;
-  margin-left: 5px;
-  border: 2px solid var(--color);
-  border-radius: 100%;
-}
-
-.actions svg.svg-inline--fa {
-  width: 25px;
-  height: 25px;
-  padding: 5px;
 }
 
 [title] {

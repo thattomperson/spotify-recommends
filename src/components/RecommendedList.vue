@@ -5,7 +5,7 @@
     <fa spin class="fader" :class="{show: loading.recommendations}" icon="sync-alt" />
   </header>
   <template v-if="recommendations.length > 0">
-      <recommended-card ref="cards" @play="stopOthers(track)" :track="track" v-for="track in recommendations" :key="track.id" />
+      <song-card ref="cards" @play="stopOthers(track)" :track="track" v-for="track in recommendations" :key="track.track.id" />
   </template>
   <template v-else>
     <div class="card" v-for="i in 20" :key="i" style="min-height: 10em;">
@@ -19,7 +19,7 @@
 <script>
 import GenreList from './GenreList'
 import { mapGetters, mapActions } from 'vuex'
-import RecommendedCard from './RecommendedCard'
+import SongCard from './SongCard'
 export default {
   computed: {
     ...mapGetters([
@@ -28,7 +28,7 @@ export default {
     ]),
   },
   components: {
-    RecommendedCard,
+    SongCard,
     GenreList
   },
   methods: {

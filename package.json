@@ -1,6 +1,6 @@
 {
   "name": "go-genre",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/vue-fontawesome": "^0.1.5",
     "axios": "^0.18.0",
+    "fitty": "^2.2.6",
     "vue": "^2.6.6",
     "vuex": "^3.0.1"
   },

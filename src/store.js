@@ -72,7 +72,7 @@ export default new Vuex.Store({
 
       return axios.get(url)
         .then(res => {
-          commit('recommendations', res.data.recommendations)
+          commit('recommendations', res.data.tracks)
         })
         .catch((err) => {
           if (err.response && err.response.status == 401) {
