@@ -113,6 +113,7 @@ func recommendationsHandler(w http.ResponseWriter, r *http.Request) {
 	res, err := transformTracks(client, ids)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	json.NewEncoder(w).Encode(res)

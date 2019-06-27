@@ -8,13 +8,12 @@ import html from 'rollup-plugin-bundle-html';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.js',
+	input: 'frontend/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-    file: 'dist/bundle.js',
-    globals: ['Spotify']
+    file: 'dist/bundle.js'
 	},
 	plugins: [
 		svelte({
