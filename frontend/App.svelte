@@ -41,6 +41,20 @@
     margin: 15px;
   }
 
+  :global(.btn) {
+    background: transparent;
+    display: block;
+    border: none;
+    height:25px;
+    width:25px;
+    padding: 5px;
+  }
+
+  :global(.btn svg) {
+    width: 100%;
+    height: 100%;
+}
+
   #app {
     max-width: 1300px;
     margin: auto;

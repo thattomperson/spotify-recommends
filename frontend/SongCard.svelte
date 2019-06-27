@@ -20,16 +20,8 @@
       <div></div>
       {/if}
 
-      {#if player}
-      <div class="flex">
-        <audio src={track.preview_url} preload="metadata"></audio>
-
-        
-        <button class="btn" on:click={() => playing = !playing}>
-          <Icon icon={playing ? faPause : faPlay } />
-        </button>
-        <progress max="1" value="0" />
-      </div>
+      {#if player && track.preview_url}
+        <Player src={track.preview_url} />
       {/if}
     
 
@@ -97,20 +89,6 @@
   align-items: stretch;
 }
 
-.btn {
-  background: transparent;
-  display: block;
-  border: none;
-  height:25px;
-  width:25px;
-  padding: 5px;
-}
-
-.btn :global(svg) {
-  width: 100%;
-  height: 100%;
-}
-
 .actions .btn {
   margin-top: 1px;
   border: 1px solid var(--color);
@@ -120,36 +98,15 @@
 }
 
 .actions .btn:first-child {
-  margin-top: 0px;
-}
+  margin-top: 0px;}
 
-.flex {
-  grid-column-end: 3;
-  grid-column-start: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.flex progress {
-    flex-grow: 1;
-    height: 8px;
-    border: 1px solid var(--color);
-}
-
-progress[value]::-webkit-progress-bar {
-  background-color: transparent;
-}
-
-progress[value]::-webkit-progress-value {
-  background-color: var(--color);;
-}
 
 </style>
 
 <script>
+  import Player from './Player.svelte'
   import Icon from 'fa-svelte';
-  import { faPlus, faSearch, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+  import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
   
   import { recommendedBasedOn } from './store'
 
@@ -167,6 +124,7 @@ progress[value]::-webkit-progress-value {
   export let actions = true
   export let player = false
 
-  let playing = false
+
+  console.log(track)
 </script>
 
