@@ -1,10 +1,14 @@
-package main
+package main // recommend.ttp.sh/handler/cmd
 
 import (
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/joho/godotenv"
+
+	"recommend.ttp.sh/handler"
 )
 
 func proxy(address string) http.HandlerFunc {
@@ -20,8 +24,10 @@ func proxy(address string) http.HandlerFunc {
 }
 
 func main() {
-	http.HandleFunc("/_/", Handler)
-	http.HandleFunc("/", proxy("localhost:8080"))
-	log.Println("Listening on localhost:8000")
+	godotenv.Load()
+
+	http.HandleFunc("/_/", handler.Handler)
+	http.HandleFunc("/", proxy("localhost:5000"))
+	log.Println("Listening on http://localhost:8000")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
