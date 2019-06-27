@@ -1,17 +1,18 @@
 
 <div class="recent">
-  <header class="header">
-    <h1>recently played <LoadingIcon loading={$loading} /></h1>
-  </header>
+  <h1>recently played <LoadingIcon loading={$loading} /></h1>
+  
   {#if $recentTracks.length > 0}
     {#each $recentTracks as track}
     <SongCard track={track.track}/>
     {/each}
   {:else}
-    {#each "|".repeat(19).split('|') as i}
+    {#each "|".repeat(20).split('|') as i}
     <div class="card" style="min-height: 12em;" />
     {/each}
   {/if}
+
+  <h1 class="made-with">made with <span>❤</span> by <a href="https://github.com/thattomperson">tom</a></h1>
 </div>
 
 <!-- {@debug $recentTracks} -->
@@ -29,6 +30,14 @@
     min-height: 12em;
     margin: 10px auto;
     background: var(--card-bg);
+  }
+
+  .made-with {
+    text-align: center;
+  }
+
+  .made-with span {
+    color: red;
   }
 </style>
 

@@ -63,10 +63,6 @@
   h2 {
     color: var(--color-muted);
   }
-
-  a {
-    color: inherit;
-  }
   
 .card {
   display: flex;

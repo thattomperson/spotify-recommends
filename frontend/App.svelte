@@ -33,6 +33,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  :global(a) {
+    color: inherit;
+  }
+
   :global(body) {
     margin: 15px;
   }
