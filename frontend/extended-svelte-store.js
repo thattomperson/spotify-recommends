@@ -8,8 +8,8 @@ export function ReadableUpdatingLoadable(value, update, timeout) {
     let cb = () => {
       lset(true)
       update(vset)
-      .catch((e) => console.error(e))
-      .then((c) => {if (c !== false) setTimeout(cb, timeout)})
+      .catch(err => console.error(err))
+      .then(res => {if (res !== false) setTimeout(cb, timeout)})
       .then(() => lset(false))
     }
     cb();
