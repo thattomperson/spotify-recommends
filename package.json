@@ -4,7 +4,10 @@
   "private": true,
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "babel-jest": "^24.8.0",
     "fa-svelte": "^3.0.0",
+    "jest": "^24.8.0",
+    "jest-transform-svelte": "^2.0.2",
     "npm-run-all": "^4.1.5",
     "rollup": "^1.10.1",
     "rollup-plugin-bundle-html": "^0.2.1",
@@ -27,6 +30,13 @@
     "start": "sirv dist --single",
     "start:dev": "sirv dist --single --dev",
     "api:dev": "cd backend; go run ./cmd",
-    "now-build": "yarn build"
+    "now-build": "yarn build",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.svelte$": "jest-transform-svelte"
+    }
   }
 }

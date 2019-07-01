@@ -68,12 +68,10 @@ progress[value]::-webkit-progress-value {
   }
   
   function update() {
-    console.log(audio.currentTime)
     progress = audio.currentTime / audio.duration;
   }
 
   function toggle() {
-    console.log(paused, audio)
     paused ? audio.play() : audio.pause()
   }
 
