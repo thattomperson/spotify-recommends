@@ -14,10 +14,11 @@
     {/each}
   {/if}
 
-  <h1 class="made-with">made with <span>❤</span> by <a href="https://github.com/thattomperson">tom</a></h1>
+  <h1>
+    <span class="made-with">made with <span>❤</span> by <a href="https://github.com/thattomperson"  target="_blank">tom</a></span>
+    <a href="https://github.com/thattomperson/spotify-recommends" target="_blank"><Icon icon={faGithub} /></a>
+  </h1>
 </div>
-
-<!-- {@debug $recentTracks} -->
 
 <style>
   .recent {
@@ -26,6 +27,8 @@
 
   h1 {
     font-family: Quicksand;
+    display: flex;
+    justify-content: space-around;
   }
 
   .card {
@@ -49,6 +52,8 @@
 
   import { recentTracks } from './store'
   import LoadingIcon from './LoadingIcon.svelte'
+  import Icon from 'fa-svelte'
+  import { faGithub } from '@fortawesome/free-brands-svg-icons';
   import SongCard from './SongCard.svelte'
 
   let loading = recentTracks.loading

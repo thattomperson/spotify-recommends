@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "babel-jest": "^24.8.0",
     "fa-svelte": "^3.0.0",
