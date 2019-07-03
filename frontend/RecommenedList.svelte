@@ -13,7 +13,7 @@
   {#if $recommendedTracks.length > 0}
     {#each $recommendedTracks as track (track.track.id)}
     <div in:fade>
-      <SongCard track={track.track}/>
+      <SongCard track={track.track} player/>
     </div>
     {/each}
   {:else}
