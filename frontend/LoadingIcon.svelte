@@ -1,17 +1,19 @@
 
 {#if loading}
-  <div>
-    <Icon icon={faSyncAlt}/>
+  <div transition:fade>
+    <div class="icon">
+      <Icon icon={faSyncAlt}/>
+    </div>
   </div>
 {/if}
 
 <style>
   div {
-    color: var(--card-bg);
     display: inline-block;
-
+  }
+  .icon {
+    color: var(--card-bg);
     font-size: .75em;
-
     animation: fa-spin 1s infinite linear;
   }
 
@@ -27,6 +29,7 @@
 
 
 <script>
+  import { fade } from 'svelte/transition'
   import Icon from 'fa-svelte';
   import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
