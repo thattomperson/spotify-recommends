@@ -14,9 +14,11 @@
     {/each}
   {/if}
 
-  <h1>
-    <span class="made-with">made with <span>❤</span> by <a href="https://github.com/thattomperson"  target="_blank">tom</a></span>
-    <a href="https://github.com/thattomperson/spotify-recommends" target="_blank"><Icon icon={faGithub} /></a>
+  <h1 class="made-with">
+    <span>made with <span style="color:red;">❤</span> by <a href="https://github.com/thattomperson"  target="_blank">tom</a></span>
+    <a href="https://github.com/thattomperson/spotify-recommends" target="_blank">
+      <Icon icon={faGithub} />
+    </a>
   </h1>
 </div>
 
@@ -27,8 +29,6 @@
 
   h1 {
     font-family: Quicksand;
-    display: flex;
-    justify-content: space-around;
   }
 
   .card {
@@ -38,11 +38,8 @@
   }
 
   .made-with {
-    text-align: center;
-  }
-
-  .made-with span {
-    color: red;
+    display: flex;
+    justify-content: space-around;
   }
 </style>
 
