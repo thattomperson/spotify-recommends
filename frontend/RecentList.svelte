@@ -3,7 +3,7 @@
   <h1>recently played <LoadingIcon loading={$loading} /></h1>
   
   {#if $recentTracks.length > 0}
-    {#each $recentTracks as track}
+    {#each $recentTracks as track (track.track.id)}
     <SongCard track={track.track}/>
     {/each}
   {:else}

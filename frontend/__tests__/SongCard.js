@@ -1,5 +1,6 @@
-jest.mock('../store');
-const SongCard = require('../SongCard.svelte')
+import SongCard from '../SongCard.svelte'
+
+jest.mock('axios')
 
 describe('SongCard', () => {
   it('Should Render Correctly', () => {

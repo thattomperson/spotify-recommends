@@ -9,7 +9,7 @@
   <h1>we recommend <LoadingIcon loading={$loading} /></h1>
 
   {#if $recommendedTracks.length > 0}
-    {#each $recommendedTracks as track}
+    {#each $recommendedTracks as track (track.track.id)}
     <SongCard track={track.track} player/>
     {/each}
   {:else}
