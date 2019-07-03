@@ -2,15 +2,19 @@
 <div class="recent">
   <h1>based on</h1>
   {#if $recommendedBasedOn}
-  <SongCard track={$recommendedBasedOn} actions={false} />
+    <div transition:fade>
+      <SongCard track={$recommendedBasedOn} actions={false} />
+    </div> 
   {:else}
-  <div class="card"/>
+    <div class="card"/>
   {/if}
   <h1>we recommend <LoadingIcon loading={$loading} /></h1>
 
   {#if $recommendedTracks.length > 0}
     {#each $recommendedTracks as track (track.track.id)}
-    <SongCard track={track.track} player/>
+    <div in:fade>
+      <SongCard track={track.track}/>
+    </div>
     {/each}
   {:else}
     {#each "|".repeat(19).split('|') as i}
@@ -38,6 +42,8 @@
 </style>
 
 <script>
+  import { fade } from 'svelte/transition'
+
   import { recommendedTracks, recommendedBasedOn } from './store'
   import LoadingIcon from './LoadingIcon.svelte'
   import SongCard from './SongCard.svelte'

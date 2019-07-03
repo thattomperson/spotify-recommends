@@ -4,7 +4,9 @@
   
   {#if $recentTracks.length > 0}
     {#each $recentTracks as track (track.track.id)}
-    <SongCard track={track.track}/>
+    <div out:fade animate:flip>
+      <SongCard track={track.track}/>
+    </div>
     {/each}
   {:else}
     {#each "|".repeat(20).split('|') as i}
@@ -42,6 +44,9 @@
 </style>
 
 <script>
+  import { fade } from 'svelte/transition'
+  import { flip } from 'svelte/animate'
+
   import { recentTracks } from './store'
   import LoadingIcon from './LoadingIcon.svelte'
   import SongCard from './SongCard.svelte'

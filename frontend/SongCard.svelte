@@ -124,7 +124,5 @@
   export let actions = true
   export let player = false
 
-
-  console.log(track)
 </script>
 
