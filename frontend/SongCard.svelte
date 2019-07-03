@@ -12,9 +12,9 @@
         <button class="btn" on:click={recommend} title="Find related songs">
           <Icon icon={faSearch} />
         </button>
-        <button class="btn" title="Add to current playlist">
+        <!-- <button class="btn" title="Add to current playlist">
           <Icon icon={faPlus} />
-        </button>
+        </button> -->
       </div>
       {:else}
       <div></div>
