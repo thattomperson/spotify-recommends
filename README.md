@@ -1,5 +1,7 @@
 # go-genre
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/thattomperson/spotify-recommends.svg)](https://greenkeeper.io/)
+
 ## Project setup
 ```
 yarn install
