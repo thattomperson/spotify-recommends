@@ -10,7 +10,7 @@ export const recommendedTracks = DereivedLoadable(recommendedBasedOn, [], auth(u
 function auth(fn) {
   return async function (...args) {
     try {
-      return fn(...args)
+      return await fn(...args)
     } catch (e) {
       window.location = '/_/auth'
     } 
