@@ -2,16 +2,24 @@ import { writable, get } from 'svelte/store';
 import { ReadableUpdatingLoadable, DereivedLoadable } from './extended-svelte-store';
 import axios from 'axios'
 
-export const recentTracks = ReadableUpdatingLoadable([], updateRecents, 10000)
+export const recentTracks = ReadableUpdatingLoadable([], auth(updateRecents), 10000)
 export const recommendedBasedOn = writable(undefined)
-export const recommendedTracks = DereivedLoadable(recommendedBasedOn, [], updateRecommened)
+export const recommendedTracks = DereivedLoadable(recommendedBasedOn, [], auth(updateRecommened))
+
+
+function auth(fn) {
+  return async function (...args) {
+    try {
+      return fn(...args)
+    } catch (e) {
+      window.location = '/_/auth'
+    } 
+  } 
+}
 
 
 async function updateRecents(set) {
   const res = await axios.get('/_/tracks')
-  if (res.data.tracks === null) {
-    window.location = '/_/auth'
-  }
 
   let rbo = get(recommendedBasedOn)
   if (!rbo) {
@@ -28,10 +36,6 @@ async function updateRecommened(track, set) {
   }
 
   const res = await axios.get(`/_/recommendations?id=${track.id}`)
-
-  if (res.data.tracks === null) {
-    window.location = '/_/auth'
-  }
 
   set(res.data.tracks)
 }
