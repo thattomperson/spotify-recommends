@@ -108,7 +108,7 @@
   import Icon from './Icon.svelte';
   import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
   
-  import { recommendedBasedOn } from './store'
+  import { recommendedBasedOn } from '../store'
 
   $: album = track.album
   $: artwork = album.images[1]
