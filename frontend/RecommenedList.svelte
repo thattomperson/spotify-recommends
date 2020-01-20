@@ -11,9 +11,9 @@
   <h1>we recommend <LoadingIcon loading={$loading} /></h1>
 
   {#if $recommendedTracks.length > 0}
-    {#each $recommendedTracks as track (track.track.id)}
+    {#each $recommendedTracks as track (track.id)}
     <div in:fade>
-      <SongCard track={track.track} player/>
+      <SongCard track={track} player/>
     </div>
     {/each}
   {:else}

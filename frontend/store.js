@@ -12,14 +12,15 @@ function auth(fn) {
     try {
       return await fn(...args)
     } catch (e) {
-      window.location = '/_/auth'
+      console.log(e)
+      window.location = '/api/auth'
     } 
   } 
 }
 
 
 async function updateRecents(set) {
-  const res = await axios.get('/_/tracks')
+  const res = await axios.get('/api/tracks')
 
   let rbo = get(recommendedBasedOn)
   if (!rbo) {
@@ -35,7 +36,7 @@ async function updateRecommened(track, set) {
     return
   }
 
-  const res = await axios.get(`/_/recommendations?id=${track.id}`)
+  const res = await axios.get(`/api/recommendations?id=${track.id}`)
 
   set(res.data.tracks)
 }

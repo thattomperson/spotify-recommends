@@ -1,8 +1,6 @@
 {
   "env": {
     "SPOTIFY_ID": "@spotify-client-id",
-    "SPOTIFY_SECRET": "@spotify-client-secret",
-    "GENIUS_ID": "@genius-client-id",
-    "GENIUS_SECRET": "@genius-client-secret"
+    "SPOTIFY_SECRET": "@spotify-client-secret"
   }
 }

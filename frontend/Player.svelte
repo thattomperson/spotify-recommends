@@ -51,7 +51,7 @@ progress[value]::-webkit-progress-value {
 
 <script>
   import { onMount } from 'svelte';
-  import Icon from 'fa-svelte';
+  import Icon from './Icon.svelte';
   import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
   export let src

@@ -105,7 +105,7 @@
 
 <script>
   import Player from './Player.svelte'
-  import Icon from 'fa-svelte';
+  import Icon from './Icon.svelte';
   import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
   
   import { recommendedBasedOn } from './store'
