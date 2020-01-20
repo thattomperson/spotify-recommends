@@ -15,6 +15,6 @@ export default (req: NowRequest, res: NowResponse) => {
     res.json({tracks: [
       { track: item },
       ...items
-    ].filter(a => a.track.id)})
+    ].filter(a => a.track)})
   })
 }
