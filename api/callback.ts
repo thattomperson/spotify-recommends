@@ -1,15 +1,16 @@
 import { NowRequest, NowResponse } from '@now/node'
-import { spotify, state } from './_spotify'
+import { spotify, state as expectedState } from './_spotify'
 import { STATUS_CODES } from 'http'
 import cookie from 'cookie'
 
 export default (req: NowRequest, res: NowResponse) => {
   spotify.setRedirectURI(`${req.headers['x-forwarded-proto']}://${req.headers['x-forwarded-host']}/api/callback`)
 
-  const { code, state: testState } = req.query
+  const { code, state } = req.query
 
-  if (testState !== state) {
+  if (state !== expectedState) {
     res.writeHead(400, "Bad Request")
+    res.end()
     return
   }
 
@@ -26,7 +27,7 @@ export default (req: NowRequest, res: NowResponse) => {
       });
       res.end()
     })
-    .catch((err, a) => {
+    .catch((err) => {
       console.log(err)
       res.writeHead(500, 'Internal Server Error')
       res.end()
