@@ -2,7 +2,6 @@
   "name": "go-genre",
   "version": "0.1.1",
   "private": true,
-  "main": "public/index.html",
   "browserslist": [
     "last 1 Chrome versions"
   ],
@@ -23,9 +22,9 @@
     "spotify-web-api-node": "^4.0.0"
   },
   "scripts": {
-    "dev": "yarn clean && svelvet",
+    "dev": "yarn clean && node bin/svelvet.js",
     "build": "NODE_ENV=production yarn dev",
-    "clean": "rm -rf dist",
-    "serve": "serve --listen 8080 --single dist"
+    "clean": "rm -rf public",
+    "serve": "serve --listen 8080 --single public"
   }
 }
