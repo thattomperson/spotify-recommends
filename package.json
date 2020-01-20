@@ -21,7 +21,7 @@
     "spotify-web-api-node": "^4.0.0"
   },
   "scripts": {
-    "build": "parcel build ./frontend/index.html --out-dir public",
-    "start": "parcel ./frontend/index.html  --out-dir public"
+    "build": "parcel build ./src/index.html --out-dir public",
+    "start": "parcel ./src/index.html  --out-dir public"
   }
 }

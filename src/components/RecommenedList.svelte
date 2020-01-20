@@ -44,7 +44,7 @@
 <script>
   import { fade } from 'svelte/transition'
 
-  import { recommendedTracks, recommendedBasedOn } from './store'
+  import { recommendedTracks, recommendedBasedOn } from '../store'
   import LoadingIcon from './LoadingIcon.svelte'
   import SongCard from './SongCard.svelte'
 
