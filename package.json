@@ -3,7 +3,9 @@
   "version": "0.1.1",
   "private": true,
   "main": "public/index.html",
-  "browserslist": ["last 1 Chrome versions"],
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
@@ -11,17 +13,19 @@
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-svelte": "^4.0.5",
     "regenerator-runtime": "^0.13.3",
-    "svelte": "^3.0.0"
+    "svelte": "^3.17.1",
+    "svelvet": "^0.1.6"
   },
   "dependencies": {
-    "axios": "^0.19.0",
     "cookie": "^0.4.0",
     "cookie-parser": "^1.4.4",
     "fa-svelte": "^3.0.0",
     "spotify-web-api-node": "^4.0.0"
   },
   "scripts": {
-    "build": "parcel build ./src/index.html --out-dir public",
-    "start": "parcel ./src/index.html  --out-dir public"
+    "dev": "yarn clean && svelvet",
+    "build": "NODE_ENV=production yarn dev",
+    "clean": "rm -rf dist",
+    "serve": "serve --listen 8080 --single dist"
   }
 }

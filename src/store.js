@@ -1,6 +1,5 @@
 import { writable, get } from 'svelte/store';
 import { ReadableUpdatingLoadable, DereivedLoadable } from './extended-svelte-store';
-import axios from 'axios'
 
 export const recentTracks = ReadableUpdatingLoadable([], auth(updateRecents), 10000)
 export const recommendedBasedOn = writable(undefined)
@@ -20,7 +19,7 @@ function auth(fn) {
 
 
 async function updateRecents(set) {
-  const res = await axios.get('/api/tracks')
+  const res = await fetch('/api/tracks')
 
   let rbo = get(recommendedBasedOn)
   if (!rbo) {
@@ -36,7 +35,7 @@ async function updateRecommened(track, set) {
     return
   }
 
-  const res = await axios.get(`/api/recommendations?id=${track.id}`)
+  const res = await fetch(`/api/recommendations?id=${track.id}`)
 
   set(res.data.tracks)
 }
