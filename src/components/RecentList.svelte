@@ -47,9 +47,9 @@
   import { fade } from 'svelte/transition'
   import { flip } from 'svelte/animate'
 
-  import { recentTracks } from './store'
+  import { recentTracks } from '../store'
   import LoadingIcon from './LoadingIcon.svelte'
-  import Icon from 'fa-svelte'
+  import Icon from './Icon.svelte';
   import { faGithub } from '@fortawesome/free-brands-svg-icons';
   import SongCard from './SongCard.svelte'
 

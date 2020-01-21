@@ -1,19 +1,6 @@
 {
-  "version": 2,
-  "name": "go-genre",
-  "alias": "recommend.ttp.sh",
-  "builds": [
-    { "src": "backend/*.go", "use": "@now/go" },
-    { "src": "package.json", "use": "@now/static-build" }
-  ],
-  "routes": [
-    { "src": "/_/(.*)", "dest": "/backend/main.go" },
-    { "src": "/(.*)", "dest": "/dist/index.html" }
-  ],
   "env": {
     "SPOTIFY_ID": "@spotify-client-id",
-    "SPOTIFY_SECRET": "@spotify-client-secret",
-    "GENIUS_ID": "@genius-client-id",
-    "GENIUS_SECRET": "@genius-client-secret"
+    "SPOTIFY_SECRET": "@spotify-client-secret"
   }
 }

@@ -10,8 +10,11 @@
 
 <script>
   import { fade } from 'svelte/transition'
-  import Icon from 'fa-svelte';
+  import Icon from './Icon.svelte';
   import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+
+
+  // console.log(Icon, faSyncAlt)
 
   export let loading = false; 
 </script>
