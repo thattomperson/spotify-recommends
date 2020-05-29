@@ -23,8 +23,6 @@
   {/if}
 </div>
 
-<!-- {@debug $recommendedTracks} -->
-
 <style>
   .recent {
     min-width: 600px;

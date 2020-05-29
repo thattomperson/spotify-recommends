@@ -15,12 +15,15 @@ function auth(fn) {
       console.log(e)
       window.location = '/api/auth'
     } 
-  } 
+  }
 }
 
 
 async function updateRecents(set) {
-  const res = await axios.get('/api/tracks')
+  const res = await fetch('/api/tracks', { credentials: true })
+    .then(res => res.json())
+
+  console.log()
 
   let rbo = get(recommendedBasedOn)
   if (!rbo) {
@@ -36,7 +39,9 @@ async function updateRecommened(track, set) {
     return
   }
 
-  const res = await axios.get(`/api/recommendations?id=${track.id}`)
+  const res = await fetch(`/api/recommendations?id=${track.id}`, {
+    credentials: true
+  })
 
   set(res.data.tracks)
 }
