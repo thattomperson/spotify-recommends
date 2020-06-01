@@ -6,6 +6,7 @@ export const spotify = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_SECRET
 });
 
+
 export const scopes = [
   'user-read-private',
   'user-read-email',

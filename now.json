@@ -1,6 +1,0 @@
-{
-  "env": {
-    "SPOTIFY_ID": "@spotify-client-id",
-    "SPOTIFY_SECRET": "@spotify-client-secret"
-  }
-}

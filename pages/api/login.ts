@@ -1,10 +1,10 @@
-import { NowRequest, NowResponse } from '@now/node'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { STATUS_CODES } from 'http'
 
 import { spotify, scopes, state } from './_spotify'
 
 
-export default (req: NowRequest, res: NowResponse) => {
+export default (req: NextApiRequest, res: NextApiResponse) => {
   spotify.setRedirectURI(`${req.headers['x-forwarded-proto']}://${req.headers['x-forwarded-host']}/api/callback`)
 
   // Create the authorization URL
@@ -15,3 +15,12 @@ export default (req: NowRequest, res: NowResponse) => {
   })
   res.end()
 }
+
+
+
+
+
+
+
+
+
