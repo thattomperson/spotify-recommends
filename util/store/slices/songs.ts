@@ -1,12 +1,15 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit'
 
-import { tracks } from '../../../pages/api/tracks';
+import { TracksResponse, PlayHistoryObject } from '../../../pages/api/tracks';
+
+export type { PlayHistoryObject, TracksResponse }
 
 type SongsState = {
   now_playing: SpotifyApi.TrackObjectSimplified | null
   recent: SpotifyApi.PlayHistoryObject[]
   now_recommending: SpotifyApi.TrackObjectSimplified | null
   recommends: SpotifyApi.TrackObjectSimplified[]
+  refreshing: boolean
 }
 
 const initialState: SongsState = {
@@ -14,6 +17,21 @@ const initialState: SongsState = {
   recent: [],
   now_recommending: null,
   recommends: [],
+  refreshing: false,
+}
+
+export const refresh = createAsyncThunk(
+  'songs/refresh',
+  async () => {
+    const response = await fetch(`/api/tracks`)
+    return (await response.json()) as TracksResponse
+  }
+)
+
+type Action<T> = {
+  meta: { [key: string]: any }
+  payload: T
+  type: string
 }
 
 const songsSlice = createSlice({
@@ -37,6 +55,20 @@ const songsSlice = createSlice({
       state.recommends = action.payload
     },
   },
+  extraReducers: {
+    [refresh.pending]: (state) => {
+      state.refreshing = true
+    },
+    [refresh.fulfilled]: (state, action: Action<TracksResponse>) => {
+      state.refreshing = false
+      console.log( {action})
+      state.now_playing = action.payload.now_playing
+      state.recent = action.payload.recent
+    },
+    [refresh.rejected]: (state) => {
+      state.refreshing = false
+    }
+  }
 })
 
 /**
@@ -46,6 +78,8 @@ const songsSlice = createSlice({
  * @returns {number} The current count
  */
 export const selectNowPlaying = (state) => state.songs.now_playing
+export const selectRecent = (state) => state.songs.recent
+export const selectRefreshing = (state) => state.songs.refreshing
 
 export const {
   nowPlaying,
@@ -53,10 +87,5 @@ export const {
   nowRecommending,
   recommends,
 } = songsSlice.actions
-
-export const refreshTracks = () => async (dispatch) => {
-  const { now_playing, recent } = await tracks()
-  songsSlice.actions.nowPlaying(now_playing)
-}
 
 export default songsSlice.reducer

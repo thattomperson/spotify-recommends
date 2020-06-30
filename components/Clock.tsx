@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 
 import { selectClock } from '../util/store/slices/clock'
+import { selectNowPlaying, selectRecent } from '../util/store/slices/songs'
 
 const formatTime = (time) => {
   // cut off except hh:mm:ss

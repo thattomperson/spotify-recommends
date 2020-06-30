@@ -1,21 +1,22 @@
 import { useDispatch } from 'react-redux'
-
-import Clock from '../components/Clock'
-import Counter from '../components/Counter'
-import { tick } from '../util/store/slices/clock'
 import useInterval from '../util/hooks/useInterval'
+
+import { refresh } from '../util/store/slices/songs'
+
+import RecentlyPlayedList from '../components/RecentlyPlayedList'
+
 
 const IndexPage = () => {
   const dispatch = useDispatch()
-  // Tick the time every second
+
+  dispatch(refresh())
   useInterval(() => {
-    dispatch(tick({ light: true, lastUpdate: Date.now() }))
-  }, 1000)
+    dispatch(refresh())
+  }, 10000)
 
   return (
     <>
-      <Clock />
-      <Counter />
+      <RecentlyPlayedList />
     </>
   )
 }

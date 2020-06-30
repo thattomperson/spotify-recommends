@@ -86,7 +86,6 @@ const Counter = () => {
           padding-left: 16px;
           padding-right: 16px;
           margin-top: 2px;
-          font-family: 'Courier New', Courier, monospace;
         }
         .button {
           appearance: none;

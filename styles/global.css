@@ -47,6 +47,23 @@ table {
 	border-spacing: 0;
 }
 
+@font-face {
+	src: url("./Montebello-Rounded.woff");
+	font-family: "Montebello Rounded";
+}
+@font-face {
+	src: url("./Montebello-Sans.woff");
+	font-family: "Montebello Sans";
+}
+@font-face {
+	src: url("./Montebello-Script-Textured.woff");
+	font-family: "Montebello Script Textured";
+}
+@font-face {
+	src: url("./Montebello-Script.woff");
+	font-family: "Montebello Script";
+}
+
 :root {
   --sapphire-light: #5c56b9;
   --sapphire: #262d88;
@@ -62,3 +79,20 @@ table {
 body {
   background: var(--coral-light);
 }
+
+.stack {
+	--space: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.stack > * {
+	margin-top: 0;
+	margin-bottom: 0;
+} 
+
+.stack > * + * {
+	margin-top: var(--space);
+}
+  
