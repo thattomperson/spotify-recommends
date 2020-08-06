@@ -12,6 +12,7 @@ const RecentlyPlayedList = () => {
 
   return <div className="stack track-list">
     <h1>recently played { refreshing && <CircularProgress color="inherit" /> }</h1>
+    
 
     { now_playing ? <TrackCard track={now_playing}></TrackCard> : null }
     {recent.map(history => <div key={history.played_at}>
