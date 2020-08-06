@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit'
 
-import { TracksResponse, PlayHistoryObject } from '../../../pages/api/tracks';
+import type { TracksResponse, PlayHistoryObject } from '../../../pages/api/tracks';
 
 export type { PlayHistoryObject, TracksResponse }
 
@@ -23,8 +23,12 @@ const initialState: SongsState = {
 export const refresh = createAsyncThunk(
   'songs/refresh',
   async () => {
-    const response = await fetch(`/api/tracks`)
-    return (await response.json()) as TracksResponse
+    try {
+      const response = await fetch(`/api/tracks`)
+      return (await response.json()) as TracksResponse
+    } catch (err) {
+      window.location.assign('/api/login')
+    }
   }
 )
 

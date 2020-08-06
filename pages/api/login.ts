@@ -15,12 +15,3 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   })
   res.end()
 }
-
-
-
-
-
-
-
-
-
