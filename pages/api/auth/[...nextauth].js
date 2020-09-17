@@ -8,8 +8,9 @@ const options = {
       clientId: process.env.SPOTIFY_ID,
       clientSecret: process.env.SPOTIFY_SECRET,
       scope: [
-        'user-read-private',
+        'streaming',
         'user-read-email',
+        'user-read-private',
         'user-read-currently-playing',
         'user-read-recently-played',
         'playlist-modify-private',
@@ -17,7 +18,6 @@ const options = {
         'user-read-playback-state',
       ].join('%20'),
     }),
-    // ...add more providers here
   ],
   jwt: {
     secret: process.env.JWT_SECRET,

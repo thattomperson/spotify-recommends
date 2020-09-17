@@ -1,11 +1,7 @@
-import { Provider } from 'react-redux'
-import store from '../util/store'
+import './global.css'
 import {
   createMuiTheme,
-  makeStyles,
-  createStyles,
   ThemeProvider,
-  Theme
 } from '@material-ui/core/styles';
 
 import { pink } from '@material-ui/core/colors';
@@ -16,40 +12,28 @@ const theme = createMuiTheme({
   palette: {
     background: {
       default: pink['A400'],
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: '3rem',
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      fontWeight: 300,
+      lineHeight: 1.167,
+      letterSpacing: '-0.01562em',
+    },
+    h4: {
+      fontWeight: 300,
     }
   }
 });
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    body: {
-      margin: 0,
-      padding: 0,
-    },
-    root: {
-      backgroundColor: theme.palette.background.default,
-    },
-  }),
-);
-
-
-function AppContainer({ children }) {
-  const classes = useStyles();
-  document.body.className = classes.body
-  return <div className={classes.root}>{children}</div>;
-}
-
-
 const MyApp = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <AppContainer>
-          <Container>
-            <Component {...pageProps} />
-          </Container>
-        </AppContainer>
-      </Provider>
+      <Container>
+        <Component {...pageProps} />
+      </Container>
     </ThemeProvider>
   )
 }

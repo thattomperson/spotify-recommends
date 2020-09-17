@@ -1,46 +1,34 @@
-import { useDispatch } from 'react-redux'
-import useInterval from '../util/hooks/useInterval'
-import { signIn, signOut, useSession } from 'next-auth/client'
-
-import { refresh } from '../util/store/slices/songs'
+import { signIn, useSession } from 'next-auth/client'
 
 import RecentlyPlayedList from '../components/RecentlyPlayedList'
+import RecommendList from '../components/RecommendList'
+
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { useState } from 'react'
 
 
 const IndexPage = () => {
   const [ session, loading ] = useSession()
-
-  const dispatch = useDispatch()
-
-  dispatch(refresh())
-  useInterval(() => {
-    dispatch(refresh())
-  }, 10e3)
+  const [basedOn, setBasedOn] = useState(null)
+  
   return <>
     {!session && <>
       Not signed in <br/>
       <button onClick={signIn}>Sign in</button>
     </>}
     {session && <>
-      <Grid container spacing={5}>
-        <Grid item>
-          <RecentlyPlayedList />
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <RecentlyPlayedList onRecommend={setBasedOn}/>
         </Grid>
-        <Grid item>
-          <RecentlyPlayedList />
+        <Grid item xs={6}>
+          <RecommendList basedOn={basedOn} onRecommend={setBasedOn}/>
         </Grid>
       </Grid>
+      <Typography variant="h4" align="center">made with ❤️ by ttp</Typography>
     </>}
   </>
-
-
-
-  // return (
-  //   <>
-  //     <RecentlyPlayedList />
-  //   </>
-  // )
 }
 
 export default IndexPage
