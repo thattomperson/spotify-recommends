@@ -1,23 +1,18 @@
-
-import { useSelector } from 'react-redux'
 import TrackCard from './TrackCard'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { CircularProgress, Typography } from '@material-ui/core'
+import Stack from './Stack'
+import { useTracks } from '../data/tracks'
 
-import { selectNowPlaying, selectRecent, selectRefreshing, PlayHistoryObject } from '../util/store/slices/songs'
 
-const RecentlyPlayedList = () => {
-  const recent : PlayHistoryObject[] = useSelector(selectRecent)
-  const now_playing : SpotifyApi.TrackObjectFull | null = useSelector(selectNowPlaying)
-  const refreshing : boolean = useSelector(selectRefreshing)
+const RecentlyPlayedList = (props: { onRecommend: Function }) => {
+  const { recent, now_playing, loading } = useTracks();
 
-  return <div className="stack track-list">
-    <h1>recently played { refreshing && <CircularProgress color="inherit" /> }</h1>
-
-    { now_playing ? <TrackCard track={now_playing}></TrackCard> : null }
-    {recent.map(history => <div key={history.played_at}>
-      <TrackCard track={history.track}></TrackCard>
-    </div>)}
-  </div>
+  return <Stack>
+    <Typography variant="h1" >now playing { loading && <CircularProgress color="inherit" /> }</Typography>
+    <TrackCard track={now_playing} onRecommend={props.onRecommend}></TrackCard>
+    <Typography variant="h1" >recently played</Typography>
+    {recent.map(history => <TrackCard key={history.played_at} track={history.track} onRecommend={props.onRecommend}></TrackCard>)}
+  </Stack>
 }
 
 export default RecentlyPlayedList
