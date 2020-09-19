@@ -20,7 +20,9 @@ const IndexPage = () => {
   return <>
     {!session && <>
       <Cover>
+        <div style={{textAlign: 'center'}}>
         <Button variant="contained" onClick={signIn}>Sign in</Button>
+        </div>
       </Cover>
     </>}
     {session && <>
