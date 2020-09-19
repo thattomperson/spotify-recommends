@@ -1,0 +1,12 @@
+.parent {
+  /* ↓ Give the parent the height of the viewport */
+  height: 100vh;
+}
+
+.parent > .child {
+  position: relative;
+  /* ↓ Push the element down 50% of the parent */
+  top: 50%;
+  /* ↓ Then adjust it by 50% of its own height */
+  transform: translateY(-50%);
+}
