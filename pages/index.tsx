@@ -1,4 +1,6 @@
 import { signIn, useSession } from 'next-auth/client'
+import { useState } from 'react'
+
 
 import RecentlyPlayedList from '../components/RecentlyPlayedList'
 import RecommendList from '../components/RecommendList'
@@ -6,8 +8,6 @@ import RecommendList from '../components/RecommendList'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import { useState } from 'react'
-import { createStyles, makeStyles, Theme } from '@material-ui/core'
 import Cover from '../components/Cover'
 
 
@@ -16,12 +16,12 @@ import Cover from '../components/Cover'
 const IndexPage = () => {
   const [ session, loading ] = useSession()
   const [basedOn, setBasedOn] = useState(null)
-  
+
   return <>
-    {!session && <>
+    {!session && !loading && <>
       <Cover>
         <div style={{textAlign: 'center'}}>
-        <Button variant="contained" onClick={signIn}>Sign in</Button>
+          <Button variant="contained" onClick={() => signIn('spotify')}>Sign in with Spotify</Button>
         </div>
       </Cover>
     </>}
@@ -40,4 +40,3 @@ const IndexPage = () => {
 }
 
 export default IndexPage
-

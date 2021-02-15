@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import QueueIcon from '@material-ui/icons/Queue';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -78,8 +79,7 @@ export default function TrackCard(props: { track: SpotifyApi.TrackObjectFull, on
             <SearchIcon />
           </IconButton>
           <IconButton onClick={() => queueSong(props.track)} aria-label="queue song">
-            <QueueIcon />
-            {queueing ? 'loading' : ''}
+            {queueing ? <CircularProgress size={20} color="inherit" /> : <QueueIcon />}
           </IconButton>
         </div> : ''}
       </div>
