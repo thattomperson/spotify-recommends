@@ -9,13 +9,19 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Cover from '../components/Cover'
+import { useTracks } from '../data/tracks'
 
 
 
 
 const IndexPage = () => {
   const [ session, loading ] = useSession()
-  const [basedOn, setBasedOn] = useState(null)
+  const [ basedOn, setBasedOn ] = useState(null)
+  const { now_playing } = useTracks()
+
+  if (basedOn === null && now_playing !== null) {
+    setBasedOn(now_playing)
+  }
 
   return <>
     {!session && !loading && <>

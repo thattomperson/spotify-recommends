@@ -39,7 +39,7 @@ export function useRecommended(track?: SpotifyApi.TrackObjectSimplified) {
   return {
     recommended: (data && data.tracks) ?? [],
     first_loading: !data && !error,
-    loading: isValidating,
+    loading: !data && !error && isValidating,
     isValidating,
   };
 }

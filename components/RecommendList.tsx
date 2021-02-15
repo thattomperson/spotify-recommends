@@ -2,15 +2,12 @@ import TrackCard from './TrackCard'
 import { CircularProgress, IconButton, Typography } from '@material-ui/core'
 import Stack from './Stack'
 import { useTracks, useRecommended } from '../data/tracks';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import QueueIcon from '@material-ui/icons/Queue';
 
 
 const RecommendList = (props: { basedOn: SpotifyApi.TrackObjectFull, onRecommend: Function }) => {
-  const { now_playing } = useTracks();
-  const basedOn = props.basedOn ?? now_playing
-
-  const {recommended, loading } = useRecommended(basedOn)
+  const {recommended, isValidating } = useRecommended(props.basedOn)
   const [queueing, setQueueing] = useState(false);
 
   const queueAll = async () => {
@@ -22,18 +19,16 @@ const RecommendList = (props: { basedOn: SpotifyApi.TrackObjectFull, onRecommend
     setQueueing(false);
   }
 
-
   return <Stack>
     <Typography variant="h1" >based on</Typography>
-    <TrackCard onRecommend={props.onRecommend} track={basedOn}></TrackCard>
-    <Typography variant="h1" >we recommend { loading && <CircularProgress color="inherit" size={20} /> }
+    <TrackCard onRecommend={props.onRecommend} track={props.basedOn}></TrackCard>
+    <Typography variant="h1" >we recommend { isValidating && <CircularProgress color="inherit" size={20} /> }
       <IconButton style={{float: 'right', margin: '4px'}} onClick={queueAll} aria-label="queue song">
         {queueing ? <CircularProgress size={20} color="inherit" /> : <QueueIcon />}
       </IconButton>
     </Typography>
-
     {
-      loading
+      isValidating || recommended.length === 0
         ? Array(20).fill(null).map((item, index) => <TrackCard key={index}></TrackCard>)
         : recommended.map(track => <TrackCard key={track.id} onRecommend={props.onRecommend} track={track}></TrackCard>)
     }
