@@ -9,7 +9,7 @@ export function useTracks() {
   });
 
   if (error || (data && data.error && data.error.statusCode === 401)) {
-    signIn();
+    signIn('spotify');
   }
 
   return {
@@ -28,17 +28,18 @@ export function useRecommended(track?: SpotifyApi.TrackObjectSimplified) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      dedupingInterval: 5e3,
     }
   );
 
   if (error || (data && data.error && data.error.statusCode === 401)) {
-    signIn();
+    signIn('spotify');
   }
 
   return {
     recommended: (data && data.tracks) ?? [],
     first_loading: !data && !error,
-    loading: !data && !error && isValidating,
+    loading: isValidating,
     isValidating,
   };
 }

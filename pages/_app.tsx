@@ -6,6 +6,7 @@ import {
 
 import { pink } from '@material-ui/core/colors';
 import Container from '@material-ui/core/Container'
+import { SkeletonTheme } from 'react-loading-skeleton'
 
 const theme = createMuiTheme({
   direction: 'ltr',
@@ -31,13 +32,13 @@ const theme = createMuiTheme({
 const MyApp = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Container>
-        <Component {...pageProps} />
-      </Container>
+      <SkeletonTheme>
+        <Container>
+          <Component {...pageProps} />
+        </Container>
+      </SkeletonTheme>
     </ThemeProvider>
   )
 }
 
 export default MyApp
-
-
