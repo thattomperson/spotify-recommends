@@ -47,13 +47,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function TrackCard(props: {
-  track?: SpotifyApi.TrackObjectFull;
-  onRecommend?: (track: SpotifyApi.TrackObjectFull) => void;
+  track?: Partial<SpotifyApi.TrackObjectFull>;
+  onRecommend?: (track: Partial<SpotifyApi.TrackObjectFull>) => void;
 }) {
   const classes = useStyles();
   const [queueing, setQueueing] = useState(false);
 
-  function queueSong(track: SpotifyApi.TrackObjectSimplified) {
+  function queueSong(track: Partial<SpotifyApi.TrackObjectFull>) {
     setQueueing(true);
     fetch(`/api/queue?uri=${track.uri}`).then(() => setQueueing(false));
   }

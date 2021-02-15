@@ -13,11 +13,11 @@
     "class-validator": "^0.12.2",
     "next": "^10.0.7",
     "next-auth": "^3.3.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-loading-skeleton": "^2.1.1",
     "spotify-web-api-node": "^4.0.0",
-    "swr": "^0.3.11"
+    "swr": "^0.4.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.28",

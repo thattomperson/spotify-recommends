@@ -37,7 +37,7 @@ interface Recommended {
 }
 
 export function useRecommended(
-  track?: SpotifyApi.TrackObjectSimplified,
+  track?: Partial<SpotifyApi.TrackObjectFull>
 ): Recommended {
   const { data, error, isValidating } = useSWR(
     track ? `/api/recommended?id=${track.id}` : null,
@@ -46,7 +46,7 @@ export function useRecommended(
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       dedupingInterval: 5e3,
-    },
+    }
   );
 
   if (error || (data && data.error && data.error.statusCode === 401)) {

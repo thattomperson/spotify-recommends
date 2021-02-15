@@ -2,13 +2,13 @@ import { CircularProgress, IconButton, Typography } from '@material-ui/core';
 import QueueIcon from '@material-ui/icons/Queue';
 import { useState } from 'react';
 
-import { useRecommended, useTracks } from '../data/tracks';
+import { useRecommended } from '../data/tracks';
 import Stack from './Stack';
 import TrackCard from './TrackCard';
 
 const RecommendList = (props: {
-  basedOn: SpotifyApi.TrackObjectFull;
-  onRecommend: (track: SpotifyApi.TrackObjectFull) => void;
+  basedOn: Partial<SpotifyApi.TrackObjectFull>;
+  onRecommend: (track: Partial<SpotifyApi.TrackObjectFull>) => void;
 }) => {
   const { recommended, isValidating } = useRecommended(props.basedOn);
   const [queueing, setQueueing] = useState(false);
