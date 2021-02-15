@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-export default function TrackCard(props: { track?: SpotifyApi.TrackObjectSimplified, onRecommend?: Function }) {
+export default function TrackCard(props: { track?: SpotifyApi.TrackObjectFull, onRecommend?: Function }) {
   const classes = useStyles();
   const [queueing, setQueueing] = useState(false);
 
