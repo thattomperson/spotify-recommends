@@ -12,7 +12,7 @@
     "@material-ui/icons": "^4.9.1",
     "class-validator": "^0.12.2",
     "next": "9.4.4",
-    "next-auth": "^3.1.0",
+    "next-auth": "^3.3.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-loading-skeleton": "^2.1.1",
