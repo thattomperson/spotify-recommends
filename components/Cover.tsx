@@ -1,9 +1,11 @@
 import styles from './Cover.module.css'
 
-export default ({ children }) => {
+const Cover = ({ children }) => {
   return <div className={styles.parent}>
     <div className={styles.child}>
       {children}
     </div>
   </div>
-}
+};
+
+export default Cover;

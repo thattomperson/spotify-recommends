@@ -1,7 +1,9 @@
 import styles from './Stack.module.css'
 
-export default ({ children }) => {
+const Stack = ({ children }) => {
   return <div className={styles.stack}>
     {children}
   </div>
-}
+};
+
+export default Stack;
