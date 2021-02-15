@@ -1,9 +1,17 @@
-import useSWR from 'swr';
 import { signIn } from 'next-auth/client';
+import useSWR from 'swr';
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
-export function useTracks() {
+interface Tracks {
+  recent: SpotifyApi.PlayHistoryObject[];
+  now_playing?: SpotifyApi.TrackObjectFull;
+  first_loading: boolean;
+  loading: boolean;
+  isValidating: boolean;
+}
+
+export function useTracks(): Tracks {
   const { data, error, isValidating } = useSWR('/api/tracks', fetcher, {
     refreshInterval: 10e3,
   });
@@ -21,7 +29,16 @@ export function useTracks() {
   };
 }
 
-export function useRecommended(track?: SpotifyApi.TrackObjectSimplified) {
+interface Recommended {
+  recommended: SpotifyApi.TrackObjectFull[];
+  first_loading: boolean;
+  loading: boolean;
+  isValidating: boolean;
+}
+
+export function useRecommended(
+  track?: SpotifyApi.TrackObjectSimplified,
+): Recommended {
   const { data, error, isValidating } = useSWR(
     track ? `/api/recommended?id=${track.id}` : null,
     fetcher,
@@ -29,7 +46,7 @@ export function useRecommended(track?: SpotifyApi.TrackObjectSimplified) {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       dedupingInterval: 5e3,
-    }
+    },
   );
 
   if (error || (data && data.error && data.error.statusCode === 401)) {

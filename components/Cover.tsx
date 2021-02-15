@@ -1,11 +1,11 @@
-import styles from './Cover.module.css'
+import styles from './Cover.module.css';
 
-const Cover = ({ children }) => {
-  return <div className={styles.parent}>
-    <div className={styles.child}>
-      {children}
+const Cover = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
+  return (
+    <div className={styles.parent}>
+      <div className={styles.child}>{children}</div>
     </div>
-  </div>
+  );
 };
 
 export default Cover;

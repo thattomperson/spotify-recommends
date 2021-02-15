@@ -1,12 +1,9 @@
-import './global.css'
-import {
-  createMuiTheme,
-  ThemeProvider,
-} from '@material-ui/core/styles';
+import './global.css';
 
 import { pink } from '@material-ui/core/colors';
-import Container from '@material-ui/core/Container'
-import { SkeletonTheme } from 'react-loading-skeleton'
+import Container from '@material-ui/core/Container';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 const theme = createMuiTheme({
   direction: 'ltr',
@@ -25,8 +22,8 @@ const theme = createMuiTheme({
     },
     h4: {
       fontWeight: 300,
-    }
-  }
+    },
+  },
 });
 
 const MyApp = ({ Component, pageProps }) => {
@@ -38,7 +35,7 @@ const MyApp = ({ Component, pageProps }) => {
         </Container>
       </SkeletonTheme>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default MyApp
+export default MyApp;

@@ -1,5 +1,5 @@
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -7,15 +7,18 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 'auto',
       bottom: 0,
     },
-  })
-)
-
+  }),
+);
 
 export default () => {
-  const classes = useStyles()
-  return <>
-    <AppBar position="fixed" color="primary" className={classes.appBar}>
-
-    </AppBar>
-  </>
-}
+  const classes = useStyles();
+  return (
+    <>
+      <AppBar
+        position="fixed"
+        color="primary"
+        className={classes.appBar}
+      ></AppBar>
+    </>
+  );
+};

@@ -1,9 +1,9 @@
-
-import SpotifyWebApi from 'spotify-web-api-node'
-import jwt from 'next-auth/jwt'
-import { Request } from './api'
+import jwt from 'next-auth/jwt';
+import SpotifyWebApi from 'spotify-web-api-node';
+import HttpManager from 'spotify-web-api-node/src/http-manager';
 import WebApiRequest from 'spotify-web-api-node/src/webapi-request';
-import HttpManager from  'spotify-web-api-node/src/http-manager';
+
+import { Request } from './api';
 
 export const scopes = [
   'user-read-private',
@@ -12,14 +12,14 @@ export const scopes = [
   'user-read-recently-played',
   'playlist-modify-private',
   'playlist-modify-public',
-  'user-read-playback-state'
-]
+  'user-read-playback-state',
+];
 
-export const state = 'testing'
+export const state = 'testing';
 
 type QueueOptions = {
-  uri: string
-} 
+  uri: string;
+};
 
 class Client extends SpotifyWebApi {
   /**
@@ -31,9 +31,7 @@ class Client extends SpotifyWebApi {
    *          otherwise an error. Not returned if a callback is given.
    */
   addTrackToQueue(options: QueueOptions, callback?: Function) {
-    var queryParams = options.uri
-      ? { uri: options.uri }
-      : null;
+    const queryParams = options.uri ? { uri: options.uri } : null;
     return WebApiRequest.builder(this.getAccessToken())
       .withPath('/v1/me/player/queue')
       .withQueryParameters(queryParams)
@@ -44,14 +42,14 @@ class Client extends SpotifyWebApi {
 }
 
 export async function api(req: Request): Promise<Client> {
-  const token = await jwt.getToken({ req, secret: process.env.JWT_SECRET })
+  const token = await jwt.getToken({ req, secret: process.env.JWT_SECRET });
 
   const webApi = new Client({
     clientId: process.env.SPOTIFY_ID,
     clientSecret: process.env.SPOTIFY_SECRET,
     accessToken: token.access_token,
     refreshToken: token.refresh_token,
-  })
+  });
 
   await webApi.refreshAccessToken();
   return webApi;
