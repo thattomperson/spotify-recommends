@@ -1,9 +1,7 @@
-import styles from './Cover.module.css';
-
 const Cover = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   return (
-    <div className={styles.parent}>
-      <div className={styles.child}>{children}</div>
+    <div className="absolute inset-0 h-screen flex justify-center items-center">
+      {children}
     </div>
   );
 };

@@ -1,9 +1,8 @@
-import { CircularProgress, IconButton, Typography } from '@material-ui/core';
+import { CircularProgress, IconButton } from '@material-ui/core';
 import QueueIcon from '@material-ui/icons/Queue';
 import { useState } from 'react';
 
 import { useRecommended } from '../data/tracks';
-import Stack from './Stack';
 import TrackCard from './TrackCard';
 
 const RecommendList = (props: {
@@ -23,13 +22,13 @@ const RecommendList = (props: {
   };
 
   return (
-    <Stack>
-      <Typography variant="h1">based on</Typography>
+    <div className="space-y-4">
+      <h1>based on</h1>
       <TrackCard
         onRecommend={props.onRecommend}
         track={props.basedOn}
       ></TrackCard>
-      <Typography variant="h1">
+      <h1>
         we recommend{' '}
         {isValidating && <CircularProgress color="inherit" size={20} />}
         <IconButton
@@ -43,7 +42,7 @@ const RecommendList = (props: {
             <QueueIcon />
           )}
         </IconButton>
-      </Typography>
+      </h1>
       {isValidating || recommended.length === 0
         ? Array(20)
             .fill(null)
@@ -55,7 +54,7 @@ const RecommendList = (props: {
               track={track}
             ></TrackCard>
           ))}
-    </Stack>
+    </div>
   );
 };
 

@@ -1,6 +1,3 @@
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { signIn, useSession } from 'next-auth/client';
 import { useState } from 'react';
 
@@ -14,7 +11,7 @@ const IndexPage = () => {
   const [basedOn, setBasedOn] = useState(null);
   const { now_playing } = useTracks();
 
-  if (basedOn === null && now_playing !== null) {
+  if (session && basedOn === null && now_playing !== null) {
     setBasedOn(now_playing);
   }
 
@@ -23,27 +20,21 @@ const IndexPage = () => {
       {!session && !loading && (
         <>
           <Cover>
-            <div style={{ textAlign: 'center' }}>
-              <Button variant="contained" onClick={() => signIn('spotify')}>
-                Sign in with Spotify
-              </Button>
-            </div>
+            <button onClick={() => signIn('spotify')} className="flex justify-center py-2 px-4 text-sm font-medium rounded-md text-pink-600 bg-white hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+              Sign in with Spotify
+            </button>
           </Cover>
         </>
       )}
       {session && (
         <>
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <RecentlyPlayedList onRecommend={setBasedOn} />
-            </Grid>
-            <Grid item xs={6}>
-              <RecommendList basedOn={basedOn} onRecommend={setBasedOn} />
-            </Grid>
-          </Grid>
-          <Typography variant="h4" align="center">
-            made with ❤️ by ttp
-          </Typography>
+          <div className="grid grid-cols-2 gap-4 my-4">
+            <RecentlyPlayedList onRecommend={setBasedOn} />
+            <RecommendList basedOn={basedOn} onRecommend={setBasedOn} />
+          </div>
+          <h4 className="text-4xl text-center">
+            made with ❤️ by <a className="underline" href="https://ttp.sh">ttp</a>
+          </h4>
         </>
       )}
     </>

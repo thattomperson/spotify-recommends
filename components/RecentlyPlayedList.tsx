@@ -1,7 +1,5 @@
-import { CircularProgress, Typography } from '@material-ui/core';
-
+import { CircularProgress } from '@material-ui/core';
 import { useTracks } from '../data/tracks';
-import Stack from './Stack';
 import TrackCard from './TrackCard';
 
 const RecentlyPlayedList = (props: {
@@ -10,16 +8,16 @@ const RecentlyPlayedList = (props: {
   const { recent, now_playing, loading, isValidating } = useTracks();
 
   return (
-    <Stack>
-      <Typography variant="h1">
+    <div className="space-y-4">
+      <h1>
         now playing{' '}
         {isValidating && <CircularProgress size={20} color="secondary" />}
-      </Typography>
+      </h1>
       <TrackCard
         track={now_playing}
         onRecommend={props.onRecommend}
       ></TrackCard>
-      <Typography variant="h1">recently played</Typography>
+      <h1>recently played</h1>
       {loading
         ? Array(20)
             .fill(null)
@@ -31,7 +29,7 @@ const RecentlyPlayedList = (props: {
               onRecommend={props.onRecommend}
             ></TrackCard>
           ))}
-    </Stack>
+    </div>
   );
 };
 

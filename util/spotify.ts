@@ -43,6 +43,9 @@ class Client extends SpotifyWebApi {
 
 export async function api(req: Request): Promise<Client> {
   const token = await jwt.getToken({ req, secret: process.env.JWT_SECRET });
+  if (!token) {
+    throw new Error('No JWT Token');
+  }
 
   const webApi = new Client({
     clientId: process.env.SPOTIFY_ID,

@@ -1,56 +1,16 @@
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  useTheme,
-} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import QueueIcon from '@material-ui/icons/Queue';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      width: '100%',
-      minHeight: '160px',
-    },
-    details: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    content: {
-      flex: '1 0 auto',
-    },
-    cover: {
-      width: 151,
-    },
-    controls: {
-      display: 'flex',
-      alignItems: 'center',
-      paddingLeft: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    playIcon: {
-      height: 38,
-      width: 38,
-    },
-  }),
-);
+const CardMedia = (props: {src?: string}) => <div className="card-media" style={{backgroundImage: `url("${props.src}")`}}></div>
 
 export default function TrackCard(props: {
   track?: Partial<SpotifyApi.TrackObjectFull>;
   onRecommend?: (track: Partial<SpotifyApi.TrackObjectFull>) => void;
 }) {
-  const classes = useStyles();
   const [queueing, setQueueing] = useState(false);
 
   function queueSong(track: Partial<SpotifyApi.TrackObjectFull>) {
@@ -59,42 +19,24 @@ export default function TrackCard(props: {
   }
 
   return (
-    <Card className={classes.root}>
-      {props.track ? (
-        <CardMedia
-          className={classes.cover}
-          image={
-            props?.track?.album?.images[0]?.url || 'https://placeholdmon.ttp.sh'
-          }
-          title={props?.track?.album?.name}
-        />
-      ) : (
-        <Skeleton className={classes.cover} height={160} width={160} />
-      )}
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            {props?.track?.name || <Skeleton height={29} width={180} />}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            {props?.track?.artists[0]?.name || (
-              <Skeleton height={25} width={'50%'} />
-            )}
-          </Typography>
-        </CardContent>
-
+    <div className="card">
+      <CardMedia src={props?.track?.album?.images[0]?.url} />
+      <div className="card-details">
+        <div>
+          <h5 className="dark:text-white">{props?.track?.name}</h5>
+          <h6 className="text-gray-500 dark:text-gray-300">{props?.track?.artists[0]?.name}</h6>
+        </div>
         {props.track ? (
-          <div className={classes.controls}>
-            <IconButton aria-label="play/pause">
-              <PlayArrowIcon className={classes.playIcon} />
-            </IconButton>
+          <div className="flex text-black dark:text-white ">
             <IconButton
+              color="inherit"
               onClick={() => props.onRecommend(props.track)}
               aria-label="search"
             >
               <SearchIcon />
             </IconButton>
             <IconButton
+              color="inherit"
               onClick={() => queueSong(props.track)}
               aria-label="queue song"
             >
@@ -105,26 +47,9 @@ export default function TrackCard(props: {
               )}
             </IconButton>
           </div>
-        ) : (
-          <div className={classes.controls}>
-            <Skeleton
-              width={36}
-              height={36}
-              style={{ margin: '10px' }}
-            ></Skeleton>
-            <Skeleton
-              width={36}
-              height={36}
-              style={{ margin: '10px' }}
-            ></Skeleton>
-            <Skeleton
-              width={36}
-              height={36}
-              style={{ margin: '10px' }}
-            ></Skeleton>
-          </div>
-        )}
+        ) : ''
+        }
       </div>
-    </Card>
+    </div>
   );
 }
