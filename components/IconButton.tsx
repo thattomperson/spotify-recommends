@@ -25,7 +25,7 @@ const IconButton = (props: IconButtonProps) => {
 
   return <button style={props.style} className={`p-3 flex flex-grow-0 flex-shrink-0 text-2xl rounded-full text-center ${props.className}`} onClick={onClick}>
     { loading
-      ? <CircularProgress size={20} />
+      ? <CircularProgress />
       : props.children
     }
   </button>

@@ -6,13 +6,13 @@ interface CircularProgressProps {
   className: string
   style: React.CSSProperties
   thickness: number
-  size: number
+  size: number|string
 }
 
 export default function CircularProgress({
   thickness = 3.6,
   style = {},
-  size = 40,
+  size = '1em',
   className = ''
 }: Partial<CircularProgressProps>) {
 
@@ -32,6 +32,7 @@ export default function CircularProgress({
         cx={SIZE}
         cy={SIZE}
         r={(SIZE - thickness) / 2}
+        strokeWidth={thickness}
       />
     </svg>
   </div>

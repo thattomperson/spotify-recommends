@@ -1,17 +1,27 @@
 import { default as api, Request } from '../../util/api';
 import * as spotify from '../../util/spotify';
 
-export type QueueResponse = {
-  success: boolean;
+type QueueResponseSuccess = {
+  success: true;
 };
 
-const handler = async (req: Request) => {
+type QueueResponseFail = {
+  success: false;
+  reason: 'no-playlist';
+};
+
+type QueueResponse = QueueResponseSuccess | QueueResponseFail;
+
+const handler = async (req: Request): Promise<QueueResponse> => {
   const client = await spotify.api(req);
 
   const { body: state } = await client.getMyCurrentPlaybackState();
 
+  console.log(state);
+
   if (state.context.type === 'playlist') {
     const id = state.context.uri.split(':').pop();
+
     await client.addTracksToPlaylist(id, [req.query.uri.toString()]);
 
     return {
@@ -21,7 +31,8 @@ const handler = async (req: Request) => {
 
   return {
     success: false,
+    reason: 'no-playlist',
   };
 };
 
-export default api<QueueResponse>(handler);
+export default api(handler);

@@ -1,8 +1,12 @@
 import IconButton from './IconButton';
 import { Queue, Search, Add } from './icons';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton from './Skeleton';
 
-const CardMedia = (props: {src?: string}) => <div className="card-media" style={{backgroundImage: `url("${props.src}")`}}></div>
+const CardMedia = (props: {src?: string}) => {
+  return props.src
+    ? <div className="card-media" style={{backgroundImage: `url("${props.src}")`}}></div>
+    : <Skeleton width={160} height={160} className="card-media" />
+}
 
 export default function TrackCard(props: {
   track?: Partial<SpotifyApi.TrackObjectFull>;
@@ -18,12 +22,12 @@ export default function TrackCard(props: {
   }
 
   return (
-    <div className="card">
-      <CardMedia src={props?.track?.album?.images[0]?.url} />
+    <div className="card shadow">
+      <CardMedia src={props.track?.album.images[0].url} />
       <div className="card-details">
         <div>
-          <h5>{props?.track?.name}</h5>
-          <h6>{props?.track?.artists[0]?.name}</h6>
+          <h5>{props.track?.name ?? <Skeleton width="80%" height={'2rem'}/>}</h5>
+          <h6>{props.track?.artists[0].name ?? <Skeleton width="60%" height={'1.5rem'}/>}</h6>
         </div>
         {props.track ? (
           <div className="flex text-black dark:text-white space-x-1">
