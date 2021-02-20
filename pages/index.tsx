@@ -1,5 +1,5 @@
 import { signIn, useSession } from 'next-auth/client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Cover from '../components/Cover';
 import RecentlyPlayedList from '../components/RecentlyPlayedList';
@@ -10,10 +10,14 @@ const IndexPage = () => {
   const [session, loading] = useSession();
   const [basedOn, setBasedOn] = useState(null);
 
-  const { now_playing } = useTracks();
+  const { now_playing, recent } = useTracks();
 
-  if (session && basedOn === null && now_playing !== null) {
-    setBasedOn(now_playing);
+  if (session && basedOn === null) {
+    if (now_playing !== null) {
+      setBasedOn(now_playing);
+    } else if (recent.length > 0) {
+      setBasedOn(recent[0].track)
+    }
   }
 
   return (

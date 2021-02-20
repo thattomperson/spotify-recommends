@@ -1,25 +1,22 @@
 import { default as api, Request } from '../../util/api';
 import * as spotify from '../../util/spotify';
 
-export type QueueResponse = {
+export type PlaylistResponseSuccess = {
   success: boolean;
+  playlists: SpotifyApi.PlaylistObjectSimplified[];
 };
 
-const handler = async (req: Request) => {
+export type PlaylistResponse = PlaylistResponseSuccess;
+
+const handler = async (req: Request): Promise<PlaylistResponse> => {
   const client = await spotify.api(req);
 
-  const { body: results } = await client.getUserPlaylists({
-    limit: 20,
-    offset: 0,
-  });
+  const { body: results } = await client.getUserPlaylists();
 
   return {
     success: true,
     playlists: results.items,
-    meta: {
-      total: results.total,
-    },
   };
 };
 
-export default api<QueueResponse>(handler);
+export default api(handler);

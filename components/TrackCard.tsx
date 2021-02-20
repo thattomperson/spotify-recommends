@@ -1,3 +1,4 @@
+import { queueTrack, addTrackToPlaylist } from '../data/tracks';
 import IconButton from './IconButton';
 import { Queue, Search, Add } from './icons';
 import Skeleton from './Skeleton';
@@ -12,15 +13,6 @@ export default function TrackCard(props: {
   track?: Partial<SpotifyApi.TrackObjectFull>;
   onRecommend?: (track: Partial<SpotifyApi.TrackObjectFull>) => Promise<any>;
 }) {
-
-  function queueSong(track: Partial<SpotifyApi.TrackObjectFull>) {
-    return fetch(`/api/queue?uri=${track.uri}`);
-  }
-
-  function addSong(track: Partial<SpotifyApi.TrackObjectFull>) {
-    return fetch(`/api/add?uri=${track.uri}`);
-  }
-
   return (
     <div className="card shadow">
       <CardMedia src={props.track?.album.images[0].url} />
@@ -40,14 +32,14 @@ export default function TrackCard(props: {
             </IconButton>
             <IconButton
               className="text-accent"
-              onClick={() => queueSong(props.track)}
+              onClick={() => queueTrack(props.track)}
               aria-label="queue song"
             >
               <Queue />
             </IconButton>
             <IconButton
               className="text-accent"
-              onClick={() => addSong(props.track)}
+              onClick={() => addTrackToPlaylist(props.track)}
               aria-label="add song to current playlist"
             >
               <Add />

@@ -8,9 +8,11 @@ export type QueueResponse = {
 const handler = async (req: Request) => {
   const client = await spotify.api(req);
 
-  await client.addTrackToQueue({
-    uri: req.query.uri.toString(),
-  });
+  const uris = Array.isArray(req.query.uri) ? req.query.uri : [req.query.uri];
+  for (let i = 0; i < uris.length; i++) {
+    const uri = uris[i];
+    await client.addTrackToQueue({ uri });
+  }
 
   return {
     success: true,

@@ -1,7 +1,7 @@
 import IconButton from './IconButton'
-import { QueueIcon } from './icons';
+import { AddIcon, QueueIcon } from './icons';
 
-import { useRecommended } from '../data/tracks';
+import { useRecommended, addTracksToPlaylist, queueTracks } from '../data/tracks';
 import TrackCard from './TrackCard';
 import CircularProgress from './CircularProgress';
 
@@ -10,13 +10,6 @@ const RecommendList = (props: {
   onRecommend: (track: Partial<SpotifyApi.TrackObjectFull>) => Promise<any>;
 }) => {
   const { recommended, isValidating } = useRecommended(props.basedOn);
-
-  const queueAll = async () => {
-    for (let index = 0; index < recommended.length; index++) {
-      const track = recommended[index];
-      await fetch(`/api/queue?uri=${track.uri}`);
-    }
-  };
 
   return (
     <div className="space-y-4">
@@ -28,14 +21,23 @@ const RecommendList = (props: {
       <h1>
         we recommend{' '}
         {isValidating && <CircularProgress className="text-accent" size={20} />}
-        <IconButton
-          className='text-accent'
-          style={{ float: 'right', margin: '4px' }}
-          onClick={queueAll}
-          aria-label="queue song"
-        >
-          <QueueIcon />
-        </IconButton>
+
+        <div className="flex" style={{float: 'right'}}>
+          <IconButton
+            className='text-accent'
+            onClick={() => queueTracks(recommended)}
+            aria-label="queue song"
+          >
+            <QueueIcon />
+          </IconButton>
+          <IconButton
+            className='text-accent'
+            onClick={() => addTracksToPlaylist(recommended)}
+            aria-label="queue song"
+          >
+            <AddIcon />
+          </IconButton>
+        </div>
       </h1>
       {isValidating || recommended.length === 0
         ? Array(20)
