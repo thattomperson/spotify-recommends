@@ -1,27 +1,18 @@
-:root {
-  --color-background: #db2777;
-  --color-card-background: #ffffff;
-  --color-primary: #000000;
-  --color-secondary: #6b7280;
-  --color-accent: #4ecca3;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #232931;
-    --color-card-background: #393e46;
-    --color-primary: #ffffff;
-    --color-secondary: #6b7280;
-    --color-accent: #4ecca3;
-  }
+* {
+  transition: background-color 0.5s ease;
+  transition: color 0.5s ease;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body, html {
-  @apply m-0 py-1 bg-background font-sans;
+html {
+  @apply m-0 p-0;
+}
+
+body {
+  @apply m-0 py-1 bg-gray-100 dark:bg-gray-900 font-sans;
 }
 
 @layer base {
@@ -34,15 +25,15 @@ body, html {
   }
 
   h5 {
-    @apply text-2xl text-primary;
+    @apply text-2xl text-black dark:text-white;
   }
 
   h6 {
-    @apply text-base text-secondary;
+    @apply text-base text-gray-500 dark:text-gray-300;
   }
 
   h1, h2, h3, h4 {
-    @apply font-extralight text-primary;
+    @apply font-extralight text-black dark:text-white;
   }
 
   h5, h6 {
@@ -52,7 +43,7 @@ body, html {
 
 @layer components {
   .card {
-    @apply bg-card flex w-full rounded-md overflow-hidden;
+    @apply bg-white dark:bg-gray-800 flex w-full rounded-md overflow-hidden;
 
     .card-media {
       @apply w-40 h-40 bg-contain flex-shrink-0 bg-center bg-no-repeat;

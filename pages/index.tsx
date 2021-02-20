@@ -1,5 +1,5 @@
 import { signIn, useSession } from 'next-auth/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Cover from '../components/Cover';
 import RecentlyPlayedList from '../components/RecentlyPlayedList';
@@ -9,6 +9,7 @@ import { useTracks } from '../data/tracks';
 const IndexPage = () => {
   const [session, loading] = useSession();
   const [basedOn, setBasedOn] = useState(null);
+
   const { now_playing } = useTracks();
 
   if (session && basedOn === null && now_playing !== null) {
@@ -32,9 +33,11 @@ const IndexPage = () => {
             <RecentlyPlayedList onRecommend={async (track) => setBasedOn(track)} />
             <RecommendList basedOn={basedOn} onRecommend={async (track) => setBasedOn(track)} />
           </div>
-          <h4 className="text-4xl text-center">
-            made with ❤️ by <a className="underline" href="https://ttp.sh">ttp</a>
-          </h4>
+          <div>
+            <h4 className="text-4xl text-center">
+              made with ❤️ by <a className="underline" href="https://ttp.sh">ttp</a>
+            </h4>
+          </div>
         </>
       )}
     </>
