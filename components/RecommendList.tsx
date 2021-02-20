@@ -1,24 +1,21 @@
-import { CircularProgress, IconButton } from '@material-ui/core';
-import QueueIcon from '@material-ui/icons/Queue';
-import { useState } from 'react';
+import IconButton from './IconButton'
+import { QueueIcon } from './icons';
 
 import { useRecommended } from '../data/tracks';
 import TrackCard from './TrackCard';
+import CircularProgress from './CircularProgress';
 
 const RecommendList = (props: {
   basedOn: Partial<SpotifyApi.TrackObjectFull>;
-  onRecommend: (track: Partial<SpotifyApi.TrackObjectFull>) => void;
+  onRecommend: (track: Partial<SpotifyApi.TrackObjectFull>) => Promise<any>;
 }) => {
   const { recommended, isValidating } = useRecommended(props.basedOn);
-  const [queueing, setQueueing] = useState(false);
 
   const queueAll = async () => {
-    setQueueing(true);
     for (let index = 0; index < recommended.length; index++) {
       const track = recommended[index];
       await fetch(`/api/queue?uri=${track.uri}`);
     }
-    setQueueing(false);
   };
 
   return (
@@ -30,17 +27,14 @@ const RecommendList = (props: {
       ></TrackCard>
       <h1>
         we recommend{' '}
-        {isValidating && <CircularProgress color="inherit" size={20} />}
+        {isValidating && <CircularProgress className="text-accent" size={20} />}
         <IconButton
+          className='text-accent'
           style={{ float: 'right', margin: '4px' }}
           onClick={queueAll}
           aria-label="queue song"
         >
-          {queueing ? (
-            <CircularProgress size={20} color="inherit" />
-          ) : (
-            <QueueIcon />
-          )}
+          <QueueIcon />
         </IconButton>
       </h1>
       {isValidating || recommended.length === 0

@@ -29,8 +29,8 @@ const IndexPage = () => {
       {session && (
         <>
           <div className="grid grid-cols-2 gap-4 my-4">
-            <RecentlyPlayedList onRecommend={setBasedOn} />
-            <RecommendList basedOn={basedOn} onRecommend={setBasedOn} />
+            <RecentlyPlayedList onRecommend={async (track) => setBasedOn(track)} />
+            <RecommendList basedOn={basedOn} onRecommend={async (track) => setBasedOn(track)} />
           </div>
           <h4 className="text-4xl text-center">
             made with ❤️ by <a className="underline" href="https://ttp.sh">ttp</a>

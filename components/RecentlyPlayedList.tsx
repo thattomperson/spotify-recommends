@@ -1,9 +1,9 @@
-import { CircularProgress } from '@material-ui/core';
+import CircularProgress from './CircularProgress'
 import { useTracks } from '../data/tracks';
 import TrackCard from './TrackCard';
 
 const RecentlyPlayedList = (props: {
-  onRecommend: (track: SpotifyApi.TrackObjectSimplified) => void;
+  onRecommend: (track: SpotifyApi.TrackObjectSimplified) => Promise<any>;
 }) => {
   const { recent, now_playing, loading, isValidating } = useTracks();
 
@@ -11,7 +11,7 @@ const RecentlyPlayedList = (props: {
     <div className="space-y-4">
       <h1>
         now playing{' '}
-        {isValidating && <CircularProgress size={20} color="secondary" />}
+        {isValidating && <CircularProgress size={20} className="text-accent" />}
       </h1>
       <TrackCard
         track={now_playing}

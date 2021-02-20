@@ -1,0 +1,34 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -15px;
+  }
+  100% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -125px;
+  }
+}
+
+.circle {
+  animation: dash 1.4s ease-in-out infinite;
+  /* Some default value that looks fine waiting for the animation to kicks in. */
+  stroke-dasharray: 80px, 200px;
+  stroke-dashoffset: 0; /* Add the unit to fix a Edge 16 and below bug. */
+}
+
+.svg {
+  animation: rotate 1.4s linear infinite;
+}
