@@ -49,7 +49,8 @@ body {
     @apply bg-white dark:bg-gray-800 flex w-full rounded-md overflow-hidden;
 
     .card-media {
-      @apply w-40 h-40 bg-contain flex-shrink-0 bg-center bg-no-repeat;
+      @apply w-40 bg-contain flex-shrink-0 bg-center bg-no-repeat;
+      min-height: 10rem;
     }
 
     .card-details {

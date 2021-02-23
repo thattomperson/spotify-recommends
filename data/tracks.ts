@@ -122,7 +122,7 @@ export async function addTracksToPlaylist(
     } else if (result.reason === 'duplicates') {
       Swal.fire({
         title:
-          tracks.length > 0
+          tracks.length > 1
             ? 'Songs are already in the playlist'
             : 'Song is already in the playlist',
         toast: true,

@@ -18,7 +18,7 @@ const RecentlyPlayedList = (props: {
         onRecommend={props.onRecommend}
       ></TrackCard>
       <h1>recently played</h1>
-      {loading
+      { loading
         ? Array(20)
             .fill(null)
             .map((item, index) => <TrackCard key={index}></TrackCard>)
