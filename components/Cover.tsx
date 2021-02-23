@@ -1,5 +1,5 @@
 interface CoverProps {
-  className: string
+  className?: string
 }
 
 const Cover = ({ children, className }: JSX.ElementChildrenAttribute & CoverProps): JSX.Element => {
