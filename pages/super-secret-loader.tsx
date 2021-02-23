@@ -58,21 +58,27 @@ const LoaderPage = () => {
   ]
 
   const [progress, setProgress] = useState(0);
+  const [value, setValue] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
       if (progress >= 100) {
+        if (value === 4) {
+          setValue(0)
+        } else {
+          setValue(value + 1)
+        }
         setProgress(0)
       } else {
         setProgress(progress + 10)
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [progress]);
+  }, [progress, value]);
 
 
   console.log({progress})
   return <Cover className="bg-white">
-    <Stepper value={2} progress={progress} steps={steps} />
+    <Stepper value={value} progress={progress} steps={steps} />
   </Cover>
 }
 
