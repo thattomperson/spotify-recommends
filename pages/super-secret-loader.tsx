@@ -12,7 +12,7 @@ function Stepper({ value, progress, steps }: StepperProps): JSX.Element {
   return <div className="flex justify-between relative min-w-max w-1/2">
     <div className="absolute h-1 bg-black top-3 left-4 right-5"></div>
     {steps.map((step, index) => {
-      return <Step content={index + 1} {...step} active={value >= index} progress={value == index ? progress : undefined} />
+      return <Step key={index} content={index + 1} {...step} active={value >= index} progress={value == index ? progress : undefined} />
     })}
   </div>
 }

@@ -31,14 +31,14 @@ export default function CircularProgress({
   return <div
     style={{width: size, height: size, ...style}}
     role="progressbar"
-    className={`inline-block ${className}`}
+    className={`inline-block ${className} ${progress === false ? styles.indeterminate : styles.determinate}`}
   >
     <svg
       className={styles.svg}
       viewBox={`${SIZE / 2} ${SIZE / 2} ${SIZE} ${SIZE}`}
     >
       <circle
-        className={`${styles.circle} ${progress === false ? styles.indeterminate : ''}`}
+        className={`${styles.circle}`}
         style={circleStyles}
         stroke="currentColor"
         fill="none"

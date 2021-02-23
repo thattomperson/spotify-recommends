@@ -29,8 +29,8 @@
   stroke-dashoffset: 0; /* Add the unit to fix a Edge 16 and below bug. */
 }
 
-.circle {
-
+.determinate .circle {
+  transition: stroke-dashoffset .1s ease-in-out;
 }
 
 .svg {
