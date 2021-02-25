@@ -3,8 +3,18 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import { signIn } from 'next-auth/client';
 import useSWR from 'swr';
 import { AddResponse } from '../pages/api/add';
+import { useEffect, useState } from 'react';
 
-const fetcher = (url) => fetch(url).then((r) => r.json());
+const fetcher = async (url) => {
+  console.log(`fetching ${url}`);
+  const res = await fetch(url);
+  console.log(`req ready`);
+  const json = await res.json();
+  console.log('json decoded');
+  console.log(`res looks like`, json);
+
+  return json;
+};
 
 interface Tracks {
   recent: SpotifyApi.PlayHistoryObject[];
@@ -15,11 +25,17 @@ interface Tracks {
 }
 
 export function useTracks(): Tracks {
-  const { data, error, isValidating } = useSWR('/api/tracks', fetcher, {
-    refreshInterval: 10e3,
+  const [inc, setInc] = useState(0);
+  useEffect(() => {}, [inc]);
+
+  const { data, error, isValidating } = useSWR('/api/tracks', {
+    refreshInterval: 1e3,
+    fetcher,
+    refreshWhenOffline: true,
   });
 
   if (error || (data && data.error && data.error.statusCode === 401)) {
+    console.error(error);
     signIn('spotify');
   }
 
@@ -44,11 +60,11 @@ export function useRecommended(
 ): Recommended {
   const { data, error, isValidating } = useSWR(
     track ? `/api/recommended?id=${track.id}` : null,
-    fetcher,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       dedupingInterval: 5e3,
+      fetcher,
     }
   );
 

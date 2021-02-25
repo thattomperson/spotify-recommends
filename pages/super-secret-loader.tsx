@@ -1,43 +1,7 @@
 import Cover from "../components/Cover"
-import CircularProgress from "../components/CircularProgress"
 import { useEffect, useState } from "react"
+import { PinkSpinner, FourSquare } from "../components/loaders"
 
-interface StepperProps {
-  value: number,
-  progress: number,
-  steps: StepProps[]
-}
-
-function Stepper({ value, progress, steps }: StepperProps): JSX.Element {
-  return <div className="flex justify-between relative min-w-max w-1/2">
-    <div className="absolute h-1 bg-black top-3 left-4 right-5"></div>
-    {steps.map((step, index) => {
-      return <Step key={index} content={index + 1} {...step} active={value >= index} progress={value == index ? progress : undefined} />
-    })}
-  </div>
-}
-
-interface StepProps {
-  label: string,
-  content?: number|string|JSX.Element
-  progress?: number
-  active?: boolean
-}
-
-function Step({label, content, active, progress}: StepProps) {
-  return <div className="flex flex-col items-center">
-    <div className={`border-accent ${active ? 'bg-accent text-white' : 'bg-white text-black'} border-2 font-bold rounded-full w-8 h-8 flex justify-center items-center z-10 relative`}>
-      {content}
-      { progress
-        ? <div className="-inset-2 absolute text-accent">
-          <CircularProgress size={44} progress={progress} />
-        </div>
-        : null
-      }
-    </div>
-    {label}
-  </div>
-}
 
 
 enum State {
@@ -49,7 +13,7 @@ enum State {
 }
 
 const LoaderPage = () => {
-  const steps: StepProps[] = [
+  const steps = [
     { label: State[0] },
     { label: State[1] },
     { label: State[2] },
@@ -69,7 +33,7 @@ const LoaderPage = () => {
         }
         setProgress(0)
       } else {
-        setProgress(progress + 10)
+        setProgress(progress + 5)
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -78,7 +42,10 @@ const LoaderPage = () => {
 
   console.log({progress})
   return <Cover className="bg-white">
-    <Stepper value={value} progress={progress} steps={steps} />
+    <div className="flex flex-col space-y-5 w-full mx-auto">
+      <PinkSpinner value={value} progress={progress} steps={steps} />
+      <FourSquare value={value} progress={progress} steps={steps} />
+    </div>
   </Cover>
 }
 

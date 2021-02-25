@@ -1,12 +1,3 @@
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes dash {
   0% {
     stroke-dasharray: 1px, 200px;
@@ -36,11 +27,4 @@
 
 .svg {
   transform: rotate(-90deg);
-}
-
-.indeterminate {
-  animation: rotate 1.4s linear infinite;
-}
-.determinate {
-  animation: rotate 1.4s linear infinite
 }
