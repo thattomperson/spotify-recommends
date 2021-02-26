@@ -1,16 +1,35 @@
-
+import Cog from "./cog"
+import styles from './Segmented.module.css'
 
 const Segment = ({ progress }: StepProps) => {
-  return <div className="h-2 bg-gray-300 flex-grow justify-between">
-    <div className="bg-green-500 h-2" style={{width: `${progress}%`} }></div>
+  return <div className="bg-gray-300 flex-grow justify-between h-4">
+    <div className="bg-green-500 h-4" style={{width: `${progress}%`} }></div>
   </div>
 }
 
 export default function Segmented({ steps, progress, value }: StepperProps) {
-  return <div className="w-1/2 mx-auto">
-    <div className="flex space-x-2 ">
-    {steps.map((props, index) => <Segment progress={value > index ? 100 : value === index ? progress : 0} {...props}/>)}
+  const whatsUp = {
+    0: 'Waiting in the queue',
+    1: 'Collecting all of your data',
+    2: 'Processing your data',
+    3: 'Creating your output formats',
+  }
+
+
+  return <>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet" />
+    <div className="flex w-1/2 mx-auto space-x-4">
+      <div className="w-20">
+        <Cog className={styles.rotate}/>
+      </div>
+      <div className="flex-grow" style={{fontFamily: 'Titillium Web'}}>
+        <div className="font-bold text-gray-800">Generating Report</div>
+        <div className="font-slim">Please wait...</div>
+        <div className="flex space-x-2 mt-4">
+        {steps.map((props, index) => <Segment progress={value > index ? 100 : value === index ? progress : 0} {...props}/>)}
+        </div>
+        <div className="text-back mt-2 text-xs"><span className="text-green-500 font-bold">{steps[value].label}</span><span className="lowercase text-gray-500">: {whatsUp[value]}</span></div>
+      </div>
     </div>
-    <div className="text-black mt-2 text-xs">{steps[value].label}</div>
-  </div>
+  </>
 }

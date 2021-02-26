@@ -18,8 +18,6 @@ function SquareProgress({
   className = '',
   progress = false
 }: Partial<SquareProgressProps>) {
-  const pathEl = useRef(null)
-
   let circleStyles = {};
   if (progress !== false) {
     const circumference = 2 * Math.PI * ((SIZE - thickness) / 2);
@@ -68,7 +66,7 @@ function SquareProgress({
 
 function Stepper({ value, progress, steps }: StepperProps): JSX.Element {
   return <div className="flex justify-between relative min-w-max w-1/2  mx-auto">
-    <div className="absolute h-1 bg-gray-300 top-3 left-4 right-5"></div>
+    <div className="absolute bg-gray-300 left-4 right-5" style={{height: '2px', top: '16px'}}></div>
     {steps.map((step, index) => {
       return <Step key={index} content={index + 1} {...step} active={value > index} progress={value == index ? progress : undefined} />
     })}
@@ -76,7 +74,7 @@ function Stepper({ value, progress, steps }: StepperProps): JSX.Element {
 }
 
 function Step({label, content, active, progress}: StepProps) {
-  return <div className="flex flex-col items-center">
+  return <div className="flex  space-y-2 flex-col items-center" style={{fontFamily: 'Titillium Web'}}>
     <div className={`border-accent ${active ? 'bg-accent text-white' : 'bg-white text-black'} border-2 font-bold rounded-md w-8 h-8 flex justify-center items-center z-10 relative`}>
       {content}
       { progress
@@ -86,7 +84,7 @@ function Step({label, content, active, progress}: StepProps) {
         : null
       }
     </div>
-    {label}
+    <span>{label}</span>
   </div>
 }
 

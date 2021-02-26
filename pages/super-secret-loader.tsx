@@ -18,7 +18,13 @@ const LoaderPage = () => {
     { label: State[1] },
     { label: State[2] },
     { label: State[3] },
-    { label: State[4] },
+  ]
+
+  const segmentedSteps = [
+    { label: State[0] },
+    { label: State[1] },
+    { label: State[2] },
+    { label: State[3] },
   ]
 
   const [progress, setProgress] = useState(50);
@@ -26,7 +32,7 @@ const LoaderPage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (progress >= 100) {
-        if (value === 4) {
+        if (value === 3) {
           setValue(0)
         } else {
           setValue(value + 1)
@@ -40,13 +46,17 @@ const LoaderPage = () => {
   }, [progress]);
   const props = {value, progress, steps}
 
-  return <Cover className="bg-white">
-    <div className="flex flex-col space-y-5 w-full mx-auto">
-      <PinkSpinner {...props} />
-      <FourSquare {...props} />
-      <Segmented {...props} />
+  return <div>
+    <div className="h-screen relative">
+      <Cover className="bg-white"><PinkSpinner {...props} /></Cover>
     </div>
-  </Cover>
+    <div className="h-screen relative">
+    <Cover className="bg-white"><FourSquare {...props} /></Cover>
+    </div>
+    <div className="h-screen relative">
+    <Cover className="bg-white"><Segmented {...props} steps={segmentedSteps} /></Cover>
+    </div>
+  </div>
 }
 
 export default LoaderPage
