@@ -22,11 +22,7 @@ export default function CircularProgress({
     const circumference = 2 * Math.PI * ((SIZE - thickness) / 2);
     circleStyles['strokeDasharray'] = circumference.toFixed(3);
     circleStyles['strokeDashoffset'] = `${(((100 - progress) / 100) * circumference).toFixed(3)}px`;
-
-    console.log({circleStyles})
   }
-
-  console.log(styles)
 
   return <div
     style={{width: size, height: size, ...style}}

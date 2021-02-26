@@ -22,13 +22,11 @@ function SquareProgress({
 
   let circleStyles = {};
   if (progress !== false) {
-      const perimiter = 131
-      circleStyles['strokeDasharray'] = perimiter.toFixed(3);
-      circleStyles['strokeDashoffset'] = `${(((100 - progress) / 100) * perimiter).toFixed(3)}px`;
-
+    const circumference = 2 * Math.PI * ((SIZE - thickness) / 2);
+    circleStyles['strokeDasharray'] = circumference.toFixed(3);
+    circleStyles['strokeDashoffset'] = `${(((100 - progress) / 100) * circumference).toFixed(3)}px`;
+    circleStyles['transform'] = `rotate(45, ${SIZE / 2}, ${SIZE / 2})`
   }
-
-  console.log(styles)
 
   return <div
     style={{width: size, height: size, ...style}}
@@ -39,22 +37,31 @@ function SquareProgress({
       className={styles.svg}
       viewBox={`${SIZE / 2} ${SIZE / 2} ${SIZE} ${SIZE}`}
     >
-      <rect
-        ref={pathEl}
-        className={`${styles.circle}`}
-        style={circleStyles}
-        stroke="currentColor"
-        fill="none"
-        rx={SIZE * .19}
-        ry={SIZE * .19}
-        // cx={SIZE}
-        // cy={SIZE}
-        x={(SIZE / 2) + thickness}
-        y={(SIZE / 2) + thickness}
-        width={SIZE - (thickness * 2)}
-        height={SIZE - (thickness * 2)}
-        strokeWidth={thickness}
-      />
+      <mask id="myMask">
+        <rect
+          fill="black"
+          rx={SIZE * .19}
+          ry={SIZE * .19}
+          x={(SIZE / 2) + thickness}
+          y={(SIZE / 2) + thickness}
+          width={SIZE - (thickness * 2)}
+          height={SIZE - (thickness * 2)}
+          stroke="white"
+          strokeWidth={thickness}
+        />
+      </mask>
+      <g mask="url(#myMask)">
+        <circle
+          className={`${styles.circle}`}
+          style={circleStyles}
+          cx={SIZE}
+          cy={SIZE}
+          r={(SIZE - thickness) / 2}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={20}
+        />
+      </g>
     </svg>
   </div>
 }

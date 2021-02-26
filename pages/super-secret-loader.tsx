@@ -1,6 +1,6 @@
 import Cover from "../components/Cover"
 import { useEffect, useState } from "react"
-import { PinkSpinner, FourSquare } from "../components/loaders"
+import { PinkSpinner, FourSquare, Segmented } from "../components/loaders"
 
 
 
@@ -21,7 +21,7 @@ const LoaderPage = () => {
     { label: State[4] },
   ]
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(50);
   const [value, setValue] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,18 +33,18 @@ const LoaderPage = () => {
         }
         setProgress(0)
       } else {
-        setProgress(progress + 5)
+        setProgress(Math.min(progress + (Math.random() * 20), 100))
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [progress, value]);
+  }, [progress]);
+  const props = {value, progress, steps}
 
-
-  console.log({progress})
   return <Cover className="bg-white">
     <div className="flex flex-col space-y-5 w-full mx-auto">
-      <PinkSpinner value={value} progress={progress} steps={steps} />
-      <FourSquare value={value} progress={progress} steps={steps} />
+      <PinkSpinner {...props} />
+      <FourSquare {...props} />
+      <Segmented {...props} />
     </div>
   </Cover>
 }
