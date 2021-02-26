@@ -65,11 +65,25 @@ function SquareProgress({
 }
 
 function Stepper({ value, progress, steps }: StepperProps): JSX.Element {
-  return <div className="flex justify-between relative min-w-max w-1/2  mx-auto">
-    <div className="absolute bg-gray-300 left-4 right-5" style={{height: '2px', top: '16px'}}></div>
-    {steps.map((step, index) => {
-      return <Step key={index} content={index + 1} {...step} active={value > index} progress={value == index ? progress : undefined} />
-    })}
+  const whatsUp = {
+    0: 'Waiting in the queue',
+    1: 'Collecting all of your data',
+    2: 'Processing your data',
+    3: 'Creating your output formats',
+  }
+
+  return <div className="flex w-1/2 mx-auto space-x-4">
+    <div className="flex-grow" style={{fontFamily: 'Titillium Web'}}>
+      <div className="font-bold text-gray-800">Generating Report</div>
+      <div className="font-slim">Please wait...</div>
+      <div className="flex  mt-4 justify-between relative">
+        <div className="absolute bg-gray-300 left-4 right-5" style={{height: '2px', top: '16px'}}></div>
+        {steps.map((step, index) => {
+          return <Step key={index} content={index + 1} {...step} active={value > index} progress={value == index ? progress : undefined} />
+        })}
+      </div>
+      <div className="text-back mt-2 text-xs"><span className="lowercase text-gray-500">{whatsUp[value]}</span></div>
+    </div>
   </div>
 }
 
@@ -86,6 +100,8 @@ function Step({label, content, active, progress}: StepProps) {
     </div>
     <span>{label}</span>
   </div>
+
+
 }
 
 export default Stepper
