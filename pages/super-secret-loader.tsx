@@ -47,9 +47,9 @@ const LoaderPage = () => {
   const props = {value, progress, steps}
 
   return <div>
-    <div className="h-screen relative">
+    {/* <div className="h-screen relative">
       <Cover className="bg-white"><PinkSpinner {...props} /></Cover>
-    </div>
+    </div> */}
     <div className="h-screen relative">
     <Cover className="bg-white"><FourSquare {...props} /></Cover>
     </div>
