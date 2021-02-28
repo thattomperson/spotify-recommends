@@ -1,0 +1,21 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.cog-1 {
+  animation: rotate 3.4s linear infinite;
+  transform-origin: 215px 256px;
+}
+.cog-2 {
+  animation: rotate 3.4s linear infinite reverse;
+  transform-origin: 530px 405px;
+}
+.cog-3 {
+  animation: rotate 3.4s linear infinite reverse;
+  transform-origin: 530px 110px;
+}
