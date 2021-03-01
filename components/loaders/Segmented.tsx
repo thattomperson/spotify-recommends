@@ -22,8 +22,8 @@ export default function Segmented({ steps, progress, value }: StepperProps) {
         <Cog className={styles.rotate}/>
       </div>
       <div className="flex-grow" style={{fontFamily: 'Titillium Web'}}>
-        <div className="font-bold text-gray-800">Generating Report</div>
-        <div className="font-slim">Please wait...</div>
+        <div className="font-bold" style={{color: 'rgb(101, 101, 101)'}}>Generating Report</div>
+        <div className="font-slim" style={{color: 'rgb(101, 101, 101)'}}>Please wait...</div>
         <div className="flex space-x-2 mt-4">
         {steps.map((props, index) => <Segment progress={value > index ? 100 : value === index ? progress : 0} {...props}/>)}
         </div>
