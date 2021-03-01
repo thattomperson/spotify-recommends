@@ -17,7 +17,7 @@ export default function Segmented({ steps, progress, value }: StepperProps) {
 
 
   return <>
-    <div className="flex w-1/2 mx-auto space-x-4">
+    <div className="flex w-4/5 sm:w-2/3 lg:w-1/2 mx-auto space-x-4">
       <div className="w-20">
         <Cog className={styles.rotate}/>
       </div>

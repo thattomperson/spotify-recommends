@@ -71,7 +71,7 @@ function Stepper({ value, progress, steps }: StepperProps): JSX.Element {
     3: 'Creating your output formats',
   }
 
-  return <div className="flex w-1/2 mx-auto space-x-4">
+  return <div className="flex w-4/5 sm:w-2/3 lg:w-1/2 mx-auto space-x-4">
     <div className="flex-grow" style={{fontFamily: 'Titillium Web'}}>
       <div className="font-bold" style={{color: 'rgb(101, 101, 101)'}}>Generating Report</div>
       <div className="font-slim" style={{color: 'rgb(101, 101, 101)'}}>Please wait...</div>

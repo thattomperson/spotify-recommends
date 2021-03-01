@@ -47,9 +47,6 @@ const LoaderPage = () => {
   const props = {value, progress, steps}
 
   return <div>
-    {/* <div className="h-screen relative">
-      <Cover className="bg-white"><PinkSpinner {...props} /></Cover>
-    </div> */}
     <div className="h-screen relative" id="l1">
     <Cover className="bg-white"><FourSquare {...props} /></Cover>
     <Pagi page={1} first />
