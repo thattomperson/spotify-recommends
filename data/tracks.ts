@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2/dist/sweetalert2';
+import Swal2 from 'sweetalert2';
 
 import { signIn } from 'next-auth/client';
 import useSWR from 'swr';
@@ -43,7 +44,7 @@ export function useRecommended(
   track?: Partial<SpotifyApi.TrackObjectFull>
 ): Recommended {
   const { data, error, isValidating } = useSWR(
-    track ? `/api/recommended?id=${track.id}` : null,
+    track ? `/api/tracks/${track.id}/recommended` : null,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -129,8 +130,21 @@ export async function addTracksToPlaylist(
         position: 'bottom-end',
         timer: 5e3,
         timerProgressBar: true,
+        icon: 'warning',
       });
     }
+  } else {
+    Swal.fire({
+      title:
+        tracks.length > 1
+          ? 'Songs have been added to the playlist'
+          : 'Song has been added the playlist',
+      toast: true,
+      position: 'bottom-end',
+      timer: 5e3,
+      timerProgressBar: true,
+      icon: 'success',
+    });
   }
 
   return result;
