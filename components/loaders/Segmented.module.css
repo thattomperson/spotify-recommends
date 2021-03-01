@@ -10,3 +10,17 @@
 .rotate {
   animation: rotate 3.4s linear infinite;
 }
+
+
+.cog-1 {
+  animation: rotate 3.4s linear infinite;
+  transform-origin: 215px 256px;
+}
+.cog-2 {
+  animation: rotate 3.4s linear infinite reverse;
+  transform-origin: 530px 405px;
+}
+.cog-3 {
+  animation: rotate 3.4s linear infinite reverse;
+  transform-origin: 530px 110px;
+}

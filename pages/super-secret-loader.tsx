@@ -1,6 +1,6 @@
 import Cover from "../components/Cover"
 import { useEffect, useState } from "react"
-import { PinkSpinner, FourSquare, Segmented } from "../components/loaders"
+import { FourSquare, Segmented, Segmented2 } from "../components/loaders"
 
 
 
@@ -55,6 +55,9 @@ const LoaderPage = () => {
     </div>
     <div className="h-screen relative">
     <Cover className="bg-white"><Segmented {...props} steps={segmentedSteps} /></Cover>
+    </div>
+    <div className="h-screen relative">
+    <Cover className="bg-white"><Segmented2 {...props} steps={segmentedSteps} /></Cover>
     </div>
   </div>
 }
