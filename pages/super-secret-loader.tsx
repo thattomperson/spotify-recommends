@@ -52,34 +52,33 @@ const LoaderPage = () => {
     </div> */}
     <div className="h-screen relative" id="l1">
     <Cover className="bg-white"><FourSquare {...props} /></Cover>
-    <Next to="#l2" />
+    <Pagi page={1} first />
     </div>
     <div className="h-screen relative border-t-2 border-gray-400" id="l2">
-    <Prev to="#l1" />
     <Cover className="bg-white"><Segmented {...props} steps={segmentedSteps} /></Cover>
-    <Next to="#l3" />
+    <Pagi page={2} />
     </div>
     <div className="h-screen relative border-t-2 border-gray-400" id="l3">
-    <Prev to="#l2" />
     <Cover className="bg-white"><Segmented2 {...props} steps={segmentedSteps} /></Cover>
-    <Next to="#l4" />
+    <Pagi page={3} />
     </div>
     <div className="h-screen relative border-t-2 border-gray-400" id="l4">
-    <Prev to="#l3" />
     <Cover className="bg-white"><Segmented3 {...props} steps={segmentedSteps} /></Cover>
+    <Pagi page={4} last />
     </div>
   </div>
 }
 
 export default LoaderPage
 
-function Prev({ to }) {
-  return <div className="text-center absolute top-0 right-0 left-0 mx-auto z-10">
-    <a href={to} className="text-gray-500 inline-block p-2 m-1 border-gray-100 border-solid border-2">Prev</a>
-  </div>
-}
-function Next({ to }) {
+function Pagi({ page, first, last }: { page: number, first?: boolean, last?: boolean }) {
   return <div className="text-center absolute bottom-0 right-0 left-0 mx-auto z-10">
-    <a href={to} className="text-gray-500 inline-block p-2 m-1 border-gray-100 border-solid border-2">Next</a>
+    { first
+      ? <span className="text-gray-200 inline-block p-2 m-1 border-gray-100 border-solid border-2">Prev</span>
+      : <a href={`#l${page - 1}`} className="text-gray-500 inline-block p-2 m-1 border-gray-100 border-solid border-2">Prev</a>}
+    <span className="text-gray-500 inline-block p-2 m-1 border-gray-100 border-solid border-2">{page}</span>
+    { last
+      ? <span className="text-gray-200 inline-block p-2 m-1 border-gray-100 border-solid border-2">Next</span>
+      : <a href={`#l${page + 1}`}  className="text-gray-500 inline-block p-2 m-1 border-gray-100 border-solid border-2">Next</a>}
   </div>
 }
