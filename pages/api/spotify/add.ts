@@ -1,6 +1,6 @@
 import SpotifyWebApi from 'spotify-web-api-node';
-import { default as api, Request } from '../../util/api';
-import * as spotify from '../../util/spotify';
+import { default as api, Request } from '../../../util/api';
+import * as spotify from '../../../util/spotify';
 
 export type AddResponseSuccess = {
   success: true;

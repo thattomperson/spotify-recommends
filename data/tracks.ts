@@ -3,7 +3,7 @@ import Swal2 from 'sweetalert2';
 
 import { signIn } from 'next-auth/client';
 import useSWR from 'swr';
-import { AddResponse } from '../pages/api/add';
+import { AddResponse } from '../pages/api/spotify/add';
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
