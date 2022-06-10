@@ -1,7 +1,6 @@
 import Swal from 'sweetalert2/dist/sweetalert2';
-import Swal2 from 'sweetalert2';
 
-import { signIn } from 'next-auth/client';
+import { signIn } from 'next-auth/react';
 import useSWR from 'swr';
 import { AddResponse } from '../pages/api/add';
 
@@ -9,6 +8,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 
 interface Tracks {
   recent: SpotifyApi.PlayHistoryObject[];
+  top: SpotifyApi.TrackObjectFull[];
   now_playing?: SpotifyApi.TrackObjectFull;
   first_loading: boolean;
   loading: boolean;
@@ -27,6 +27,7 @@ export function useTracks(): Tracks {
   return {
     recent: (data && data.recent) ?? [],
     now_playing: (data && data.now_playing) ?? null,
+    top: (data && data.top) ?? [],
     first_loading: !data && !error,
     loading: !data && !error && isValidating,
     isValidating,

@@ -1,40 +1,41 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import SpotifyProvider from "next-auth/providers/spotify";
+
 
 const options = {
   // Configure one or more authentication providers
   providers: [
-    Providers.Spotify({
+    SpotifyProvider({
       clientId: process.env.SPOTIFY_ID,
       clientSecret: process.env.SPOTIFY_SECRET,
-      scope: [
+      authorization: { params: { scope: [
         'streaming',
         'user-read-email',
         'user-read-private',
+        'user-top-read',
         'user-read-currently-playing',
         'user-read-recently-played',
         'playlist-modify-private',
         'playlist-modify-public',
         'user-read-playback-state',
-      ].join('%20'),
+      ].join(' ') } },
+      profile(profile, tokens) {
+        return {
+          id: profile.id,
+          name: profile.display_name,
+          email: profile.email,
+          image: profile.images?.[0]?.url ?? 'https://placeholdmon.ttp.sh/100x100'
+        }
+      }
     }),
   ],
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
   callbacks: {
-    /**
-     * @param  {object}  token     Decrypted JSON Web Token
-     * @param  {object}  user      User object      (only available on sign in)
-     * @param  {object}  account   Provider account (only available on sign in)
-     * @param  {object}  profile   Provider profile (only available on sign in)
-     * @param  {boolean} isNewUser True if new user (only available on sign in)
-     * @return {object}            JSON Web Token that will be saved
-     */
-    jwt: async (token, user, account, profile, isNewUser) => {
+     async jwt({ token, account }) {
+      console.log(account)
+
       if (account) {
-        token.refresh_token = account.refreshToken;
-        token.access_token = account.accessToken;
+        token.refresh_token = account.refresh_token;
+        token.access_token = account.access_token;
       }
       // const isSignIn = (user) ? true : false
       // // Add auth_time to token on signin in

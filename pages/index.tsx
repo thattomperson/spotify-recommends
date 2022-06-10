@@ -1,13 +1,15 @@
-import { signIn, useSession } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/react';
+
 import { useState } from 'react';
 
 import Cover from '../components/Cover';
 import RecentlyPlayedList from '../components/RecentlyPlayedList';
 import RecommendList from '../components/RecommendList';
+import TopTrackList from '../components/TopTracksList';
 import { useTracks } from '../data/tracks';
 
 const IndexPage = () => {
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
   const [basedOn, setBasedOn] = useState(null);
 
   const { now_playing, recent } = useTracks();
@@ -22,7 +24,7 @@ const IndexPage = () => {
 
   return (
     <>
-      {!session && !loading && (
+      {status == 'unauthenticated' && (
         <>
           <Cover>
             <button onClick={() => signIn('spotify')} className="flex justify-center py-2 px-4 text-sm font-medium rounded-md text-pink-600 bg-white hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
@@ -31,11 +33,12 @@ const IndexPage = () => {
           </Cover>
         </>
       )}
-      {session && (
+      {session && status == 'authenticated' && (
         <>
-          <div className="grid grid-cols-2 gap-4 my-4">
+          <div className="grid grid-cols-3 gap-4 my-4">
             <RecentlyPlayedList onRecommend={async (track) => setBasedOn(track)} />
             <RecommendList basedOn={basedOn} onRecommend={async (track) => setBasedOn(track)} />
+            <TopTrackList onRecommend={async (track) => setBasedOn(track)} />
           </div>
           <div>
             <h4 className="text-4xl text-center">

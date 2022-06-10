@@ -12,19 +12,22 @@ export interface PlayHistoryObject {
 export type TracksResponse = {
   now_playing: SpotifyApi.TrackObjectFull;
   recent: PlayHistoryObject[];
+  top: SpotifyApi.TrackObjectFull[]
 };
 
 const handler = async (req: Request) => {
   const client = await spotify.api(req);
 
-  const [now_playing, recent] = await Promise.all([
+  const [now_playing, recent, top] = await Promise.all([
     client.getMyCurrentPlayingTrack(),
     client.getMyRecentlyPlayedTracks(),
+    client.getMyTopTracks({ time_range: 'short_term', limit: 20 }),
   ]);
 
   return {
     now_playing: now_playing.body.item,
     recent: recent.body.items as PlayHistoryObject[],
+    top: top.body.items,
   };
 };
 

@@ -3,7 +3,7 @@ import IconButton from './IconButton';
 import { Queue, Search, Add } from './icons';
 import Skeleton from './Skeleton';
 
-const CardMedia = (props: {src?: string}) => {
+export const CardMedia = (props: { src?: string }) => {
   return props.src
     ? <div className="card-media" style={{backgroundImage: `url("${props.src}")`}}></div>
     : <Skeleton width={160} height={160} className="card-media" />

@@ -1,4 +1,4 @@
-import jwt from 'next-auth/jwt';
+import { getToken } from 'next-auth/jwt';
 import SpotifyWebApi from 'spotify-web-api-node';
 import HttpManager from 'spotify-web-api-node/src/http-manager';
 import WebApiRequest from 'spotify-web-api-node/src/webapi-request';
@@ -42,16 +42,18 @@ class Client extends SpotifyWebApi {
 }
 
 export async function api(req: Request): Promise<Client> {
-  const token = await jwt.getToken({ req, secret: process.env.JWT_SECRET });
+  const token = await getToken({ req });
   if (!token) {
     throw new Error('No JWT Token');
   }
 
+  console.log(token)
+
   const webApi = new Client({
     clientId: process.env.SPOTIFY_ID,
     clientSecret: process.env.SPOTIFY_SECRET,
-    accessToken: token.access_token,
-    refreshToken: token.refresh_token,
+    accessToken: token.access_token as string,
+    refreshToken: token.refresh_token as string,
   });
 
   await webApi.refreshAccessToken();
