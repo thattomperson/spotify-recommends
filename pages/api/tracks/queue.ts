@@ -1,5 +1,5 @@
-import { default as api, Request } from '../../../../util/api';
-import * as spotify from '../../../../util/spotify';
+import { default as api, Request } from '../../../util/api';
+import * as spotify from '../../../util/spotify';
 
 export type QueueResponse = {
   success: boolean;
