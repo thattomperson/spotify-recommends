@@ -3,6 +3,7 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import { signIn } from 'next-auth/react';
 import useSWR from 'swr';
 import { AddResponse } from '../pages/api/add';
+import * as Fathom from 'fathom-client';
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -82,6 +83,8 @@ export function queueTrack(
 export function queueTracks(
   tracks: Partial<SpotifyApi.TrackObjectFull>[]
 ): Promise<any> {
+  Fathom.trackGoal('WFSCEJUX', tracks.length)
+
   const qs = tracks.map((track) => `uri=${track.uri}`).join('&');
   return fetch(`/api/track/queue?${qs}`);
 }
@@ -90,6 +93,8 @@ export async function addTracksToPlaylist(
   tracks: Partial<SpotifyApi.TrackObjectFull>[],
   playlist_id: string = null
 ): Promise<any> {
+  Fathom.trackGoal('S2WUVZLG', tracks.length);
+
   const qs = tracks.map((track) => `uri=${track.uri}`);
 
   if (playlist_id) {
