@@ -83,7 +83,7 @@ export function queueTracks(
   tracks: Partial<SpotifyApi.TrackObjectFull>[]
 ): Promise<any> {
   const qs = tracks.map((track) => `uri=${track.uri}`).join('&');
-  return fetch(`/api/queue?${qs}`);
+  return fetch(`/api/track/queue?${qs}`);
 }
 
 export async function addTracksToPlaylist(
