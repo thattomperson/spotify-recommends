@@ -46,7 +46,7 @@ const IndexPage = () => {
             </h4>
 
             <h4 className="text-4xl text-center flex">
-              view analytics by <a className='ml-2' href="https://app.usefathom.com/share/pnbtwnvn/spotify+recommends">
+              view analytics by <a target="_blank" className='ml-2' href="https://app.usefathom.com/share/pnbtwnvn/spotify+recommends" rel="noreferrer">
                 <img alt="Fathom" style={{ height: '1em' }} src="https://usefathom.com/assets/images/brand/fathom-logo-dark.svg" />
               </a>
             </h4>
