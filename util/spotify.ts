@@ -47,8 +47,6 @@ export async function api(req: Request): Promise<Client> {
     throw new Error('No JWT Token');
   }
 
-  console.log(token)
-
   const webApi = new Client({
     clientId: process.env.SPOTIFY_ID,
     clientSecret: process.env.SPOTIFY_SECRET,

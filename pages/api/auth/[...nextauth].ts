@@ -31,7 +31,6 @@ const options = {
   ],
   callbacks: {
      async jwt({ token, account }) {
-      console.log(account)
 
       if (account) {
         token.refresh_token = account.refresh_token;
