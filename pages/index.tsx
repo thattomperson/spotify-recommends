@@ -1,4 +1,5 @@
 import { signIn, useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 import { useState } from 'react';
 
@@ -45,9 +46,9 @@ const IndexPage = () => {
               made with ❤️ by <a className="underline" href="https://ttp.sh">ttp</a>
             </h4>
 
-            <h4 className="text-4xl text-center flex">
-              view analytics by <a target="_blank" className='ml-2' href="https://app.usefathom.com/share/pnbtwnvn/spotify+recommends" rel="noreferrer">
-                <img alt="Fathom" style={{ height: '1em' }} src="https://usefathom.com/assets/images/brand/fathom-logo-dark.svg" />
+            <h4 className="text-4xl text-center flex items-baseline">
+              view analytics by <a target="_blank" className='ml-2 h-[.8em] relative' href="https://app.usefathom.com/share/pnbtwnvn/spotify+recommends" rel="noreferrer">
+                <Image alt="Fathom" height={30} width={130} src="https://usefathom.com/assets/images/brand/fathom-logo-dark.svg" />
               </a>
             </h4>
           </div>
