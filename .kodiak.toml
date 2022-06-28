@@ -1,4 +1,5 @@
-# .kodiak.toml
+version = 1
+
 [merge]
 automerge_label = "ship it!"
 
