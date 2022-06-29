@@ -1,14 +1,16 @@
 version = 1
 
+[approve]
+auto_approve_usernames = ["dependabot"]
+
 [merge]
-automerge_label = "ship it!"
+method = "squash"
+automerge_label = ["🚀 merge", "⬆️ dependencies"]
 
 [merge.automerge_dependencies]
-# auto merge all PRs opened by "dependabot" that are "minor" or "patch" version upgrades. "major" version upgrades will be ignored.
+# only auto merge "minor" and "patch" version upgrades.
 versions = ["minor", "patch"]
 usernames = ["dependabot"]
 
-# if using `update.always`, add dependabot to `update.ignore_usernames` to allow
-# dependabot to update and close stale dependency upgrades.
 [update]
-ignored_usernames = ["dependabot"]
+autoupdate_label = "♻️ autoupdate"

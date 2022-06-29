@@ -86,7 +86,7 @@ export function queueTracks(
   Fathom.trackGoal('WFSCEJUX', tracks.length)
 
   const qs = tracks.map((track) => `uri=${track.uri}`).join('&');
-  return fetch(`/api/track/queue?${qs}`);
+  return fetch(`/api/tracks/queue?${qs}`);
 }
 
 export async function addTracksToPlaylist(
