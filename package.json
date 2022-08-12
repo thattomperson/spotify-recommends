@@ -13,7 +13,7 @@
     "autoprefixer": "^10.4.8",
     "class-validator": "^0.13.2",
     "fathom-client": "^3.5.0",
-    "next": "^12.2.4",
+    "next": "^12.2.5",
     "next-auth": "^4.10.3",
     "postcss-import": "^14.0.0",
     "postcss-nested": "^5.0.3",
