@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "env:pull": "vercel env pull",
-    "logs": "vercel logs -f $npm_package_name"
+    "logs": "vercel logs -f $npm_package_name",
+    "test": "true"
   },
   "dependencies": {
     "@fourio/lint": "^1.0.1",
