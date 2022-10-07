@@ -17,7 +17,7 @@
     "next": "^12.3.1",
     "next-auth": "^4.12.3",
     "postcss-import": "^15.0.0",
-    "postcss-nested": "^5.0.3",
+    "postcss-nested": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "spotify-web-api-node": "^5.0.2",
