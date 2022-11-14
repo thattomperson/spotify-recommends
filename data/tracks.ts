@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2/dist/sweetalert2';
+import Swal from 'sweetalert2';
 
 import { signIn } from 'next-auth/react';
 import useSWR from 'swr';
@@ -43,7 +43,7 @@ interface Recommended {
 }
 
 export function useRecommended(
-  track?: Partial<SpotifyApi.TrackObjectFull>
+  track?: Partial<SpotifyApi.TrackObjectFull>,
 ): Recommended {
   const { data, error, isValidating } = useSWR(
     track ? `/api/tracks/${track.id}/recommended` : null,
@@ -52,7 +52,7 @@ export function useRecommended(
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       dedupingInterval: 5e3,
-    }
+    },
   );
 
   if (error || (data && data.error && data.error.statusCode === 401)) {
@@ -69,21 +69,21 @@ export function useRecommended(
 
 export function addTrackToPlaylist(
   track: Partial<SpotifyApi.TrackObjectFull>,
-  playlist_id: string = null
+  playlist_id: string = null,
 ) {
   return addTracksToPlaylist([track], playlist_id);
 }
 
 export function queueTrack(
-  track: Partial<SpotifyApi.TrackObjectFull>
+  track: Partial<SpotifyApi.TrackObjectFull>,
 ): Promise<any> {
   return queueTracks([track]);
 }
 
 export function queueTracks(
-  tracks: Partial<SpotifyApi.TrackObjectFull>[]
+  tracks: Partial<SpotifyApi.TrackObjectFull>[],
 ): Promise<any> {
-  Fathom.trackGoal('WFSCEJUX', tracks.length)
+  Fathom.trackGoal('WFSCEJUX', tracks.length);
 
   const qs = tracks.map((track) => `uri=${track.uri}`).join('&');
   return fetch(`/api/tracks/queue?${qs}`);
@@ -91,7 +91,7 @@ export function queueTracks(
 
 export async function addTracksToPlaylist(
   tracks: Partial<SpotifyApi.TrackObjectFull>[],
-  playlist_id: string = null
+  playlist_id: string = null,
 ): Promise<any> {
   Fathom.trackGoal('S2WUVZLG', tracks.length);
 
@@ -101,14 +101,14 @@ export async function addTracksToPlaylist(
     qs.push(`playlist=${playlist_id}`);
   }
 
-  const result: AddResponse = await fetch(
-    `/api/add?${qs.join('&')}`
-  ).then((res) => res.json());
+  const result: AddResponse = await fetch(`/api/add?${qs.join('&')}`).then(
+    (res) => res.json(),
+  );
 
   if (result.success === false) {
     if (result.reason === 'no-playlist') {
       const { playlists } = await fetch('/api/playlists').then((res) =>
-        res.json()
+        res.json(),
       );
 
       let options = {};
