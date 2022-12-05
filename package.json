@@ -15,7 +15,7 @@
     "class-validator": "^0.13.2",
     "fathom-client": "^3.5.0",
     "next": "^13.0.5",
-    "next-auth": "^4.17.0",
+    "next-auth": "^4.18.0",
     "postcss-import": "^15.0.0",
     "postcss-nested": "^6.0.0",
     "react": "^18.2.0",
@@ -30,7 +30,7 @@
     "@types/node": "^16.11.42",
     "@types/react": "^18.0.25",
     "@types/spotify-web-api-node": "^5.0.7",
-    "eslint-config-next": "13.0.5",
+    "eslint-config-next": "13.0.6",
     "typescript": "^4.9.3",
     "vercel": "^28.7.2"
   }
