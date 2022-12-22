@@ -15,7 +15,7 @@
     "class-validator": "^0.14.0",
     "fathom-client": "^3.5.0",
     "next": "^13.0.7",
-    "next-auth": "^4.18.6",
+    "next-auth": "^4.18.7",
     "postcss-import": "^15.1.0",
     "postcss-nested": "^6.0.0",
     "react": "^18.2.0",
