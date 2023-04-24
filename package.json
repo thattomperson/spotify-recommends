@@ -30,7 +30,7 @@
     "@types/node": "^16.11.42",
     "@types/react": "^18.0.37",
     "@types/spotify-web-api-node": "^5.0.7",
-    "eslint-config-next": "13.3.0",
+    "eslint-config-next": "13.3.1",
     "typescript": "^5.0.4",
     "vercel": "^28.20.0"
   }
