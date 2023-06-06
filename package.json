@@ -21,7 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "spotify-web-api-node": "^5.0.2",
-    "sweetalert2": "^11.7.10",
+    "sweetalert2": "^11.7.11",
     "sweetalert2-react-content": "^5.0.7",
     "swr": "^2.1.5",
     "tailwindcss": "^3.3.2"
