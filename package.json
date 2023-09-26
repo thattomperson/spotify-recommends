@@ -23,7 +23,7 @@
     "spotify-web-api-node": "^5.0.2",
     "sweetalert2": "^11.7.31",
     "sweetalert2-react-content": "^5.0.7",
-    "swr": "^2.2.2",
+    "swr": "^2.2.4",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
