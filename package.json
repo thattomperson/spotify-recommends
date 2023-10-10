@@ -10,7 +10,7 @@
     "test": "true"
   },
   "dependencies": {
-    "@fourio/lint": "^2.0.0",
+    "@fourio/lint": "^2.1.2",
     "autoprefixer": "^10.4.16",
     "class-validator": "^0.14.0",
     "fathom-client": "^3.5.0",
