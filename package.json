@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.42",
-    "@types/react": "^18.2.45",
+    "@types/react": "^18.2.46",
     "@types/spotify-web-api-node": "^5.0.11",
     "eslint-config-next": "14.0.4",
     "typescript": "^5.3.3",
