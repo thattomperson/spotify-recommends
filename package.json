@@ -12,7 +12,7 @@
   "dependencies": {
     "@fourio/lint": "^2.1.2",
     "autoprefixer": "^10.4.16",
-    "class-validator": "^0.14.0",
+    "class-validator": "^0.14.1",
     "fathom-client": "^3.6.0",
     "next": "^13.5.6",
     "next-auth": "^4.24.5",
