@@ -32,6 +32,6 @@
     "@types/spotify-web-api-node": "^5.0.11",
     "eslint-config-next": "15.0.1",
     "typescript": "^5.6.3",
-    "vercel": "^37.11.0"
+    "vercel": "^37.12.1"
   }
 }
